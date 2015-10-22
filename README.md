@@ -28,4 +28,4 @@ methods on to the basic Array like collection types.  So methods would be availa
 
 ###Contribute
 
-Feel free to add you own methods here!  Be sure to include an integration test!
+Feel free to add your own methods here!  And be sure to include an integration test!

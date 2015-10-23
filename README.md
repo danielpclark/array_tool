@@ -20,34 +20,29 @@ use array_tool::vec::*;
 ###Example usage
 
 ```rust
-assert_eq!(
-  array_tool::uniques(vec![1,2,3,4,5], vec![2,5,6,7,8]), // input
-  vec![vec![1,3,4], vec![6,7,8]]                         // return value  
-)
+pub fn uniques<T: PartialEq + Clone>(a: Vec<T>, b: Vec<T>) -> Vec<Vec<T>>
+  //  array_tool::uniques(vec![1,2,3,4,5], vec![2,5,6,7,8]), // input
+  //  vec![vec![1,3,4], vec![6,7,8]]                         // return value  
 
-use array_tool::vec::Uniq; // This adds the .uniq and .unique methods onto Vectors
-assert_eq!(
-  vec![1,2,3,4,5,6].uniq( vec![1,2,5,7,9] ), // input
-  vec![3,4,6]                                // return value
-);
-assert_eq!(
-  vec![1,2,1,3,2,3,4,5,6].unique(), // input
-  vec![1,2,3,4,5,6]                 // return value
-);
-assert_eq!(
-  vec![1,2,1,3,4,3,4,5,6].is_unique(), // input
-  false                                // return value
-);
-assert_eq!(
-  vec![1,2,3,4,5,6].is_unique(), // input
-  true                           // return value
-);
+use array_tool::vec::Uniq;
+fn uniq(&self, other: Vec<T>) -> Vec<T>
+  //  vec![1,2,3,4,5,6].uniq( vec![1,2,5,7,9] ), // input
+  //  vec![3,4,6]                                // return value
+fn unique(&self) -> Vec<T>
+  //  vec![1,2,1,3,2,3,4,5,6].unique(),          // input
+  //  vec![1,2,3,4,5,6]                          // return value
+fn is_unique(&self) -> bool
+  //  vec![1,2,1,3,4,3,4,5,6].is_unique(),       // input
+  //  false                                      // return value
+  //  vec![1,2,3,4,5,6].is_unique(),             // input
+  //  true                                       // return value
 
 use array_tool::vec::Empty;
-let mut x = vec![1];
-assert_eq!(x.empty(), false);
-x.pop();
-assert_eq!(x.empty(), true);
+fn empty(&self) -> bool
+  //  let mut x = vec![1];
+  //  assert_eq!(x.empty(), false);
+  //  x.pop();
+  //  assert_eq!(x.empty(), true);
 ```
 
 ##Future plans

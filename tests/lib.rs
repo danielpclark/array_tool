@@ -64,3 +64,9 @@ fn it_joins(){
   use array_tool::vec::Join;
   assert_eq!(vec![1,2,3].join(","), "1,2,3")
 }
+
+#[test]
+fn it_creates_union() {
+  use array_tool::vec::Union;
+  assert_eq!(vec!["a","b","c"].union(vec!["c","d","a"]), vec![ "a", "b", "c", "d" ]);
+}

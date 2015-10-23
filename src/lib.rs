@@ -52,12 +52,12 @@ pub mod vec {
   }
 
   pub trait Empty {
-    //#[deprecated(since = "0.3.0", reason = "already implemented with is_empty()")]
+    //#[deprecated(since = "0.2.3", reason = "already implemented with is_empty()")]
     fn empty(&self)-> bool;
   }
 
   impl<T: PartialEq> Empty for Vec<T> {
-    //#[deprecated(since = "0.3.0", reason = "already implemented with is_empty()")]
+    //#[deprecated(since = "0.2.3", reason = "already implemented with is_empty()")]
     fn empty(&self) -> bool {
       self.len() == 0
     }
@@ -101,6 +101,7 @@ pub mod vec {
   pub trait Join {
     fn join(&self, joiner: &'static str) -> String;
   }
+
   impl<T: ToString> Join for Vec<T> {
     fn join(&self, joiner: &'static str) -> String {
       let mut out = String::from("");
@@ -117,7 +118,11 @@ pub mod vec {
   pub trait Times {
     fn times(&self, qty: i32) -> Self;
   }
+
   impl<T: Clone> Times for Vec<T> {
+     // TODO: The size of the vector to be made "is known", 
+     // re-implement with full length vector and then asign
+     // each position
     fn times(&self, qty: i32) -> Vec<T> {
       let mut out = vec![];
       for _ in 0..(qty as usize) {
@@ -128,6 +133,23 @@ pub mod vec {
       out
     }
   }
+  
+  pub trait Union {
+    fn union(&self, other: Self) -> Self;
+  }
+  impl<T: PartialEq + Clone> Union for Vec<T> {
+     // TODO: The size of the vector to be made "is known", 
+     // re-implement with full length vector and then asign
+     // each position
+    fn union(&self, other: Vec<T>) -> Vec<T> {
+      let mut stack = self.clone();
+      for x in other {
+        stack.push(x)
+      }
+      stack.unique()
+    }
+  }
+
 }
 
 pub fn uniques<T: PartialEq + Clone>(a: Vec<T>, b: Vec<T>) -> Vec<Vec<T>> {

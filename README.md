@@ -1,5 +1,5 @@
 # array_tool
-[![Crate](https://img.shields.io/badge/crate-v0.2.3-orange.svg)](https://crates.io/crates/array_tool)
+[![Crate](https://img.shields.io/badge/crate-v0.2.4-orange.svg)](https://crates.io/crates/array_tool)
 [![Build Status](https://travis-ci.org/danielpclark/array_tool.svg)](https://travis-ci.org/danielpclark/array_tool)
 
 Array helpers for Rust.  Some of the most common methods you would
@@ -11,7 +11,7 @@ for handling most of your use cases.
 Add the following to your Cargo.toml file
 ```
 [dependencies]
-array_tool = "0.2.3"
+array_tool = "0.2.4"
 ```
 
 And in your rust files where you plan to use it put this at the top
@@ -68,6 +68,11 @@ use array_tool::vec::Times;
 fn times(&self, qty: i32) -> Vec<T>
   //  vec![1,2,3].times(3)                // input
   //  vec![1,2,3,1,2,3,1,2,3]             // return value
+
+use array_tool::vec::Union;
+fn union(&self, other: Vec<T>) -> Vec<T>
+  //  vec!["a","b","c"].union(vec!["c","d","a"])   // input
+  //  vec![ "a", "b", "c", "d" ]                   // return value
 ```
 
 ##Future plans

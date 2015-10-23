@@ -1,12 +1,12 @@
 # array_tool
-[![Crate](https://img.shields.io/badge/crate-v0.2.1-orange.svg)](https://crates.io/crates/array_tool)
+[![Crate](https://img.shields.io/badge/crate-v0.2.2-orange.svg)](https://crates.io/crates/array_tool)
 [![Build Status](https://travis-ci.org/danielpclark/array_tool.svg)](https://travis-ci.org/danielpclark/array_tool)
 Array helpers for Rust
 
 Add the following to your Cargo.toml file
 ```
 [dependencies]
-array_tool = "0.2.1"
+array_tool = "0.2.2"
 ```
 
 And in your rust files where you plan to use it put this at the top
@@ -51,9 +51,9 @@ fn unshift(&mut self, other: T)     // no return value, modifies &mut self direc
   //  let mut x = vec![1,2,3];
   //  x.unshift(0);
   //  assert_eq!(x, vec![0,1,2,3]);
-fn shift(&mut self)                 // no return value, modifies &mut self directly
+fn shift(&mut self)   
   //  let mut x = vec![0,1,2,3];
-  //  x.shift();
+  //  assert_eq!(x.shift(), 0);
   //  assert_eq!(x, vec![1,2,3]);
 
 use array_tool::vec::Intersect;

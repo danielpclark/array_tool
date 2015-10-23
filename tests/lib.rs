@@ -42,7 +42,7 @@ fn it_shifts() {
   let mut x = vec![1,2,3];
   x.unshift(0);
   assert_eq!(x, vec![0,1,2,3]);
-  x.shift();
+  assert_eq!(x.shift(), 0);
   assert_eq!(x, vec![1,2,3]);
 }
 

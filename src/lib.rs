@@ -62,13 +62,13 @@ pub mod vec {
   }
 
   pub trait Shift<T> {
-    fn shift(&mut self);
+    fn shift(&mut self) -> T;
     fn unshift(&mut self, other: T);
   }
   
   impl<T: PartialEq> Shift<T> for Vec<T> {
-    fn shift(&mut self) {
-      &self.remove(0);
+    fn shift(&mut self) -> T {
+      self.remove(0)
     }
     fn unshift(&mut self, other: T) {
       &self.insert(0, other);

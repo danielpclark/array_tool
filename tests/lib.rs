@@ -7,3 +7,9 @@ fn it_implements_uniques() {
   assert_eq!(array_tool::uniques(vec![1,2,3],vec![1,2,3,4,5]), vec![vec![], vec![4,5]]);
   assert_eq!(array_tool::uniques(vec![1,2,9],vec![1,2,3,4,5]), vec![vec![9], vec![3,4,5]]);
 }
+
+#[test]
+fn it_implements_individual_uniq_on_vec() {
+  use array_tool::Uniq;
+  assert_eq!(vec![1,2,3,4,5,6].uniq(vec![1,2,5,7,9]),vec![3,4,6]);
+}

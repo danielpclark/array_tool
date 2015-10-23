@@ -1,31 +1,27 @@
-pub fn uniques<T: std::cmp::PartialEq<T> + std::clone::Clone>(a: Vec<T>, b: Vec<T>) -> Vec<Vec<T>> {
-  let mut first_uniq = vec![];
+pub trait Uniq{
+  fn uniq(&self, other: Self) -> Self;
+}
 
-  for x in &a {
-    let mut unique = true;
-    for y in &b {
-      if x == y {
-        unique = false
+impl<T: Clone + PartialEq> Uniq for Vec<T> {
+  fn uniq(&self, other: Vec<T>) -> Vec<T> {
+
+    let mut uniq_val = vec![];
+
+    for x in self.to_vec() {
+      let mut unique = true;
+      for y in other.to_vec() {
+        if x == y {
+          unique = false
+        }
+      };
+      if unique {
+        uniq_val.push(x.clone())
       }
     };
-    if unique {
-      first_uniq.push(x.clone())
-    }
-  };
+    uniq_val
+  }
+}
 
-  let mut second_uniq = vec![];
-
-  for x in &b {
-    let mut unique = true;
-    for y in &a {
-      if x == y {
-        unique = false
-      }
-    };
-    if unique {
-      second_uniq.push(x.clone())
-    }
-  };
-  
-  vec![first_uniq, second_uniq]
+pub fn uniques<T: PartialEq + Clone>(a: Vec<T>, b: Vec<T>) -> Vec<Vec<T>> {
+  vec![a.uniq(b.clone()), b.uniq(a)]
 }

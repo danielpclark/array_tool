@@ -1,5 +1,5 @@
 # array_tool
-[![Crate](https://img.shields.io/badge/v0.2.1-orange.svg)](https://crates.io/crates/array_tool)
+[![Crate](https://img.shields.io/badge/crate-v0.2.1-orange.svg)](https://crates.io/crates/array_tool)
 [![Build Status](https://travis-ci.org/danielpclark/array_tool.svg)](https://travis-ci.org/danielpclark/array_tool)
 Array helpers for Rust
 

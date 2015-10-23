@@ -1,12 +1,17 @@
 # array_tool
-[![Crate](https://img.shields.io/badge/crate-v0.2.2-orange.svg)](https://crates.io/crates/array_tool)
+[![Crate](https://img.shields.io/badge/crate-v0.2.3-orange.svg)](https://crates.io/crates/array_tool)
 [![Build Status](https://travis-ci.org/danielpclark/array_tool.svg)](https://travis-ci.org/danielpclark/array_tool)
-Array helpers for Rust
+
+Array helpers for Rust.  Some of the most common methods you would
+use on Arrays made available on Vectors.  Polymorphic implementations
+for handling most of your use cases.
+
+###Installation
 
 Add the following to your Cargo.toml file
 ```
 [dependencies]
-array_tool = "0.2.2"
+array_tool = "0.2.3"
 ```
 
 And in your rust files where you plan to use it put this at the top
@@ -60,6 +65,16 @@ use array_tool::vec::Intersect;
 fn intersect(&self, other: Vec<T>) -> Vec<T>
   //  vec![1,1,3,5].intersect(vec![1,2,3]) // input
   //  vec![1,3])                           // return value
+
+use array_tool::vec::Join;
+fn join(&self, joiner: &'static str) -> String
+  //  vec![1,2,3].join(",")                // input
+  //  "1,2,3"                              // return value
+
+use array_tool::vec::Times;
+fn times(&self, qty: i32) -> Vec<T>
+  //  vec![1,2,3].times(3)                // input
+  //  vec![1,2,3,1,2,3,1,2,3]             // return value
 ```
 
 ##Future plans

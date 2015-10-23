@@ -138,9 +138,6 @@ pub mod vec {
     fn union(&self, other: Self) -> Self;
   }
   impl<T: PartialEq + Clone> Union for Vec<T> {
-     // TODO: The size of the vector to be made "is known", 
-     // re-implement with full length vector and then asign
-     // each position
     fn union(&self, other: Vec<T>) -> Vec<T> {
       let mut stack = self.clone();
       for x in other {

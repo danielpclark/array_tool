@@ -4,7 +4,7 @@ Array helpers for Rust
 Add the following to your Cargo.toml file
 ```
 [dependencies]
-array_tool = "0.2.0"
+array_tool = "0.2.1"
 ```
 
 And in your rust files where you plan to use it put this at the top
@@ -43,6 +43,21 @@ fn empty(&self) -> bool
   //  assert_eq!(x.empty(), false);
   //  x.pop();
   //  assert_eq!(x.empty(), true);
+
+use arra_tool::vec::Shift;
+fn unshift(&mut self, other: T)     // no return value, modifies &mut self directly
+  //  let mut x = vec![1,2,3];
+  //  x.unshift(0);
+  //  assert_eq!(x, vec![0,1,2,3]);
+fn shift(&mut self)                 // no return value, modifies &mut self directly
+  //  let mut x = vec![0,1,2,3];
+  //  x.shift();
+  //  assert_eq!(x, vec![1,2,3]);
+
+use array_tool::vec::Intersect;
+fn intersect(&self, other: Vec<T>) -> Vec<T>
+  //  vec![1,1,3,5].intersect(vec![1,2,3]) // input
+  //  vec![1,3])                           // return value
 ```
 
 ##Future plans

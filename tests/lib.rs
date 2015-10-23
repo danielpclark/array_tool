@@ -15,23 +15,40 @@ fn it_implements_individual_uniq_on_vec() {
 }
 
 #[test]
-fn it_can_return_its_own_unique(){
+fn it_can_return_its_own_unique() {
   use array_tool::vec::Uniq;
   assert_eq!(vec![1,2,1,3,4,3,4,5,6].unique(),vec![1,2,3,4,5,6]);
 }
 
 #[test]
-fn it_answers_about_uniqueness(){
+fn it_answers_about_uniqueness() {
   use array_tool::vec::Uniq;
   assert_eq!(vec![1,2,1,3,4,3,4,5,6].is_unique(), false);
   assert_eq!(vec![1,2,3,4,5,6].is_unique(), true);
 }
 
 #[test]
-fn it_checks_emptiness(){
+fn it_checks_emptiness() {
   use array_tool::vec::Empty;
   let mut x = vec![1];
   assert_eq!(x.empty(), false);
   x.pop();
   assert_eq!(x.empty(), true);
 }
+
+#[test]
+fn it_shifts() {
+  use array_tool::vec::Shift;
+  let mut x = vec![1,2,3];
+  x.unshift(0);
+  assert_eq!(x, vec![0,1,2,3]);
+  x.shift();
+  assert_eq!(x, vec![1,2,3]);
+}
+
+#[test]
+fn it_intersects() {
+  use array_tool::vec::Intersect;
+  assert_eq!(vec![1,1,3,5].intersect(vec![1,2,3]), vec![1,3])
+}
+

@@ -61,6 +61,40 @@ pub mod vec {
     }
   }
 
+  pub trait Shift<T> {
+    fn shift(&mut self);
+    fn unshift(&mut self, other: T);
+  }
+  
+  impl<T: PartialEq> Shift<T> for Vec<T> {
+    fn shift(&mut self) {
+      &self.remove(0);
+    }
+    fn unshift(&mut self, other: T) {
+      &self.insert(0, other);
+    }
+  }
+
+  pub trait Intersect {
+    fn intersect(&self, Self) -> Self;
+  }
+
+  impl<T: PartialEq + Clone> Intersect for Vec<T> {
+    fn intersect(&self, other: Vec<T>) -> Vec<T> {
+      let mut out = vec![];
+      let a = self.unique();
+      let length = other.len();
+      for x in a {
+        for y in 0..length {
+          if x == other[y] {
+            out.push(x);
+            break;
+          }
+        }
+      }
+      out
+    }
+  }
 }
 
 pub fn uniques<T: PartialEq + Clone>(a: Vec<T>, b: Vec<T>) -> Vec<Vec<T>> {

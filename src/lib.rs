@@ -52,10 +52,12 @@ pub mod vec {
   }
 
   pub trait Empty {
+    //#[deprecated(since = "0.3.0", reason = "already implemented with is_empty()")]
     fn empty(&self)-> bool;
   }
 
   impl<T: PartialEq> Empty for Vec<T> {
+    //#[deprecated(since = "0.3.0", reason = "already implemented with is_empty()")]
     fn empty(&self) -> bool {
       self.len() == 0
     }

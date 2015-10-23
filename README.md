@@ -44,13 +44,6 @@ fn is_unique(&self) -> bool
   //  vec![1,2,3,4,5,6].is_unique(),             // input
   //  true                                       // return value
 
-use array_tool::vec::Empty;
-fn empty(&self) -> bool
-  //  let mut x = vec![1];
-  //  assert_eq!(x.empty(), false);
-  //  x.pop();
-  //  assert_eq!(x.empty(), true);
-
 use arra_tool::vec::Shift;
 fn unshift(&mut self, other: T)     // no return value, modifies &mut self directly
   //  let mut x = vec![1,2,3];

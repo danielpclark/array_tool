@@ -27,14 +27,15 @@ fn it_answers_about_uniqueness() {
   assert_eq!(vec![1,2,3,4,5,6].is_unique(), true);
 }
 
-#[test]
-fn it_checks_emptiness() {
-  use array_tool::vec::Empty;
-  let mut x = vec![1];
-  assert_eq!(x.empty(), false);
-  x.pop();
-  assert_eq!(x.empty(), true);
-}
+//  DEPRECATED for current implementation is_empty()
+//  #[test]
+//  fn it_checks_emptiness() {
+//    use array_tool::vec::Empty;
+//    let mut x = vec![1];
+//    assert_eq!(x.empty(), false);
+//    x.pop();
+//    assert_eq!(x.empty(), true);
+//  }
 
 #[test]
 fn it_shifts() {

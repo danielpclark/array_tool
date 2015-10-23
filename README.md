@@ -17,7 +17,7 @@ And if you plan to use all of the Vector helper methods available you may do
 use array_tool::vec::*;
 ```
 
-###Example usage
+###Usage
 
 ```rust
 pub fn uniques<T: PartialEq + Clone>(a: Vec<T>, b: Vec<T>) -> Vec<Vec<T>>

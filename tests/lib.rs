@@ -13,3 +13,19 @@ fn it_implements_individual_uniq_on_vec() {
   use array_tool::Uniq;
   assert_eq!(vec![1,2,3,4,5,6].uniq(vec![1,2,5,7,9]),vec![3,4,6]);
 }
+
+#[test]
+fn it_can_return_its_own_unique(){
+  use array_tool::Uniq;
+  assert_eq!(vec![1,2,1,3,4,3,4,5,6].unique(),vec![1,2,3,4,5,6]);
+}
+
+
+#[test]
+fn it_checks_emptiness(){
+  use array_tool::Empty;
+  let mut x = vec![1];
+  assert_eq!(x.empty(), false);
+  x.pop();
+  assert_eq!(x.empty(), true);
+}

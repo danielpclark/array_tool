@@ -1,5 +1,6 @@
-pub trait Uniq{
+pub trait Uniq {
   fn uniq(&self, other: Self) -> Self;
+  fn unique(&self) -> Self;
 }
 
 impl<T: Clone + PartialEq> Uniq for Vec<T> {
@@ -20,8 +21,31 @@ impl<T: Clone + PartialEq> Uniq for Vec<T> {
     };
     uniq_val
   }
+
+  fn unique(&self) -> Vec<T> {
+    let mut a = self.clone();
+    for x in 0..a.len() {
+      for y in x+1..a.len() {
+        if a[x] == a[y] {
+          a.remove(y);
+          break;
+        }
+      }
+    }
+    a
+  }
 }
 
 pub fn uniques<T: PartialEq + Clone>(a: Vec<T>, b: Vec<T>) -> Vec<Vec<T>> {
   vec![a.uniq(b.clone()), b.uniq(a)]
+}
+
+pub trait Empty {
+  fn empty(&self)-> bool;
+}
+
+impl<T: PartialEq> Empty for Vec<T> {
+  fn empty(&self) -> bool {
+    self.len() == 0
+  }
 }

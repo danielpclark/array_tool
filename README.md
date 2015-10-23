@@ -56,7 +56,7 @@ fn unshift(&mut self, other: T)     // no return value, modifies &mut self direc
   //  let mut x = vec![1,2,3];
   //  x.unshift(0);
   //  assert_eq!(x, vec![0,1,2,3]);
-fn shift(&mut self)   
+fn shift(&mut self) -> T
   //  let mut x = vec![0,1,2,3];
   //  assert_eq!(x.shift(), 0);
   //  assert_eq!(x, vec![1,2,3]);

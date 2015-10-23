@@ -95,6 +95,37 @@ pub mod vec {
       out
     }
   }
+
+  pub trait Join {
+    fn join(&self, joiner: &'static str) -> String;
+  }
+  impl<T: ToString> Join for Vec<T> {
+    fn join(&self, joiner: &'static str) -> String {
+      let mut out = String::from("");
+      for x in 0..self.len() {
+        out.push_str(&self[x].to_string());
+        if x < self.len()-1 {
+          out.push_str(&joiner)
+        }
+      }
+      out
+    }
+  }
+
+  pub trait Times {
+    fn times(&self, qty: i32) -> Self;
+  }
+  impl<T: Clone> Times for Vec<T> {
+    fn times(&self, qty: i32) -> Vec<T> {
+      let mut out = vec![];
+      for _ in 0..(qty as usize) {
+        for i in 0..self.len() {
+          out.push(self[i].clone())
+        }
+      }
+      out
+    }
+  }
 }
 
 pub fn uniques<T: PartialEq + Clone>(a: Vec<T>, b: Vec<T>) -> Vec<Vec<T>> {

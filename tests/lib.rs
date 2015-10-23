@@ -52,3 +52,14 @@ fn it_intersects() {
   assert_eq!(vec![1,1,3,5].intersect(vec![1,2,3]), vec![1,3])
 }
 
+#[test]
+fn it_multiplies(){
+  use array_tool::vec::Times;
+  assert_eq!(vec![1,2,3].times(3), vec![1,2,3,1,2,3,1,2,3])
+}
+
+#[test]
+fn it_joins(){
+  use array_tool::vec::Join;
+  assert_eq!(vec![1,2,3].join(","), "1,2,3")
+}

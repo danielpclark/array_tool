@@ -1,6 +1,6 @@
 [package]
 name = "array_tool"
-version = "0.1.2"
+version = "0.2.0"
 authors = ["Daniel P. Clark <6ftdan@gmail.com>"]
 description = "Helper methods for processing Array like collections"
 homepage = "https://github.com/danielpclark/array_tool"

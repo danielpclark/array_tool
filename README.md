@@ -1,5 +1,6 @@
 # array_tool
 Array helpers for Rust
+[![Build Status](https://travis-ci.org/danielpclark/array_tool.svg)](https://travis-ci.org/danielpclark/array_tool)
 
 Add the following to your Cargo.toml file
 ```

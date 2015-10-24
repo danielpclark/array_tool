@@ -1,5 +1,5 @@
 # array_tool
-[![Crate](https://img.shields.io/badge/crate-v0.2.5-orange.svg)](https://crates.io/crates/array_tool)
+[![Crate](https://img.shields.io/badge/crates.io-v0.2.6-orange.svg)](https://crates.io/crates/array_tool)
 [![Build Status](https://travis-ci.org/danielpclark/array_tool.svg)](https://travis-ci.org/danielpclark/array_tool)
 
 Array helpers for Rust.  Some of the most common methods you would
@@ -11,7 +11,7 @@ for handling most of your use cases.
 Add the following to your Cargo.toml file
 ```
 [dependencies]
-array_tool = "0.2.5"
+array_tool = "0.2.6"
 ```
 
 And in your rust files where you plan to use it put this at the top

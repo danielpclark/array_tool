@@ -7,30 +7,23 @@ pub mod vec {
 
   impl<T: Clone + PartialEq> Uniq for Vec<T> {
     fn uniq(&self, other: Vec<T>) -> Vec<T> {
-
-      let mut uniq_val = vec![];
-
-      for x in self.to_vec() {
-        let mut unique = true;
-        for y in other.to_vec() {
-          if x == y {
-            unique = false
+      let mut out = self.unique();
+      for x in other.unique() {
+        for y in (0..out.len()).rev() {
+          if x == out[y] {
+            out.remove(y);
           }
-        };
-        if unique {
-          uniq_val.push(x.clone())
         }
-      };
-      uniq_val
+      }
+      out
     }
 
     fn unique(&self) -> Vec<T> {
       let mut a = self.clone();
-      for x in 0..a.len() {
-        for y in x+1..a.len() {
+      for x in (0..a.len()).rev() {
+        for y in (x+1..a.len()).rev() {
           if a[x] == a[y] {
             a.remove(y);
-            break;
           }
         }
       }
@@ -136,7 +129,7 @@ pub mod vec {
   impl<T: PartialEq + Clone> Union for Vec<T> {
     fn union(&self, other: Vec<T>) -> Vec<T> {
       let mut stack = self.clone();
-      for x in other {
+      for x in other { // don't use append method as it's destructive
         stack.push(x)
       }
       stack.unique()

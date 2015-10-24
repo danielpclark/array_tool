@@ -13,3 +13,11 @@ fn uniques1(b: &mut Bencher){
     uniques(a, d) 
   })
 }
+
+#[bench] // 100% performance improvement
+fn times(b: &mut Bencher){
+  b.iter(|| {
+    use array_tool::vec::Times;
+    vec![1,2,3,4,5,6].times(150);
+  });
+}

@@ -120,15 +120,11 @@ pub mod vec {
   }
 
   impl<T: Clone> Times for Vec<T> {
-     // TODO: The size of the vector to be made "is known", 
-     // re-implement with full length vector and then asign
-     // each position
     fn times(&self, qty: i32) -> Vec<T> {
-      let mut out = vec![];
-      for _ in 0..(qty as usize) {
-        for i in 0..self.len() {
-          out.push(self[i].clone())
-        }
+      let mut out = vec![self[0].clone();self.len()*(qty as usize)];
+      let mut cycle = self.iter().cycle();
+      for x in 0..self.len()*(qty as usize) {
+        out[x] = cycle.next().unwrap().clone();
       }
       out
     }

@@ -77,8 +77,9 @@ fn union(&self, other: Vec<T>) -> Vec<T>
 
 ##Future plans
 
-I plan on implementing Array like methods for union, difference, and uniq.  Also I plan to add
-methods on to the basic Array like collection types.  So methods would be available to use on &[] and Vec.
+I plan to implement many of the methods available for Arrays in
+higher languages; such as Ruby.  Ideally all methods will be optimized
+for efficiency (most are).  Expect regular updates.
 
 ###Contribute
 

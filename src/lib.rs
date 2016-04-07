@@ -34,7 +34,7 @@ pub mod vec {
   /// Several different methods for getting, or evaluating, uniqueness.
   pub trait Uniq {
     /// `uniq` returns a vector of unique values within itself as compared to
-    /// the other vector which is provided as a input parameter.
+    /// the other vector which is provided as an input parameter.
     ///
     /// # Example
     /// ```

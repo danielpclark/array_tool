@@ -1,6 +1,7 @@
 # array_tool
-[![Crate](https://img.shields.io/badge/crates.io-v0.2.6-orange.svg)](https://crates.io/crates/array_tool)
+[![Crate](https://img.shields.io/badge/crates.io-v0.3.0-orange.svg)](https://crates.io/crates/array_tool)
 [![Build Status](https://travis-ci.org/danielpclark/array_tool.svg)](https://travis-ci.org/danielpclark/array_tool)
+[![Documentation](https://img.shields.io/badge/docs-100%25-brightgreen.svg)](http://danielpclark.github.io/array_tool/index.html)
 
 Array helpers for Rust.  Some of the most common methods you would
 use on Arrays made available on Vectors.  Polymorphic implementations
@@ -11,7 +12,7 @@ for handling most of your use cases.
 Add the following to your Cargo.toml file
 ```
 [dependencies]
-array_tool = "0.2.6"
+array_tool = "0.3.0"
 ```
 
 And in your rust files where you plan to use it put this at the top

@@ -21,3 +21,4 @@ fn times(b: &mut Bencher){
     vec![1,2,3,4,5,6].times(150);
   });
 }
+

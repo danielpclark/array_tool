@@ -33,16 +33,6 @@ fn it_answers_about_uniqueness() {
   assert_eq!(vec![1,2,3,4,5,6].is_unique(), true);
 }
 
-//  DEPRECATED for current implementation is_empty()
-//  #[test]
-//  fn it_checks_emptiness() {
-//    use array_tool::vec::Empty;
-//    let mut x = vec![1];
-//    assert_eq!(x.empty(), false);
-//    x.pop();
-//    assert_eq!(x.empty(), true);
-//  }
-
 #[test]
 fn it_shifts() {
   use array_tool::vec::Shift;
@@ -79,3 +69,33 @@ fn it_creates_union() {
              vec![1,2,3,4,6,5,7,8,0]
             );
 }
+
+//#[test]
+//fn it_iterates(){
+//  use array_tool::vec::MovingSlice;
+//}
+
+//#[test]
+//fn it_moves_over_slices() {
+//  use array_tool::vec::MovingSlice;
+//  // first item in downto returns self
+//  assert_eq!(
+//    vec!['A','2','3','4','5','6'].downto(3).next,
+//    vec!['A','2','3','4','5','6']
+//  );
+//  // collect from down to returns all slices from current to minimum
+//  assert_eq!(
+//    vec!['2','3','4'].downto(1).collect(),
+//    vec![vec!['2','3','4'],vec!['2','3'],vec!['3','4'],vec!['2'],vec!['3'],vec!['4']]
+//  );
+//  // collect up from min vecs to max
+//  assert_eq!(
+//    vec!['5','6','7'].upfrom(1).collect(),
+//    vec![vec!['5'],vec!['6'],vec!['7'],vec!['5','6'],vec!['6','7'],vec!['5','6','7']]
+//  );
+//  // first item in upfrom returns the frist slice of minimum
+//  assert_eq!(
+//    vec!['A','2','3'].upfrom(1).next,
+//    vec!['A']
+//  );
+//}

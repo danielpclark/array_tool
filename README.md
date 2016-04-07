@@ -44,7 +44,7 @@ fn is_unique(&self) -> bool
   //  vec![1,2,3,4,5,6].is_unique(),             // input
   //  true                                       // return value
 
-use arra_tool::vec::Shift;
+use array_tool::vec::Shift;
 fn unshift(&mut self, other: T)     // no return value, modifies &mut self directly
   //  let mut x = vec![1,2,3];
   //  x.unshift(0);
@@ -57,7 +57,7 @@ fn shift(&mut self) -> T
 use array_tool::vec::Intersect;
 fn intersect(&self, other: Vec<T>) -> Vec<T>
   //  vec![1,1,3,5].intersect(vec![1,2,3]) // input
-  //  vec![1,3])                           // return value
+  //  vec![1,3]                            // return value
 
 use array_tool::vec::Join;
 fn join(&self, joiner: &'static str) -> String
@@ -81,6 +81,17 @@ I plan to implement many of the methods available for Arrays in
 higher languages; such as Ruby.  Ideally all methods will be optimized
 for efficiency (most are).  Expect regular updates.
 
-###Contribute
+## License
 
-Feel free to add your own methods here!  And be sure to include an integration test!
+Licensed under either of
+
+ * Apache License, Version 2.0, ([LICENSE-APACHE](LICENSE-APACHE) or http://www.apache.org/licenses/LICENSE-2.0)
+ * MIT license ([LICENSE-MIT](LICENSE-MIT) or http://opensource.org/licenses/MIT)
+
+at your option.
+
+### Contribution
+
+Unless you explicitly state otherwise, any contribution intentionally submitted
+for inclusion in the work by you, as defined in the Apache-2.0 license, shall be dual licensed as above, without any
+additional terms or conditions.

@@ -10,9 +10,23 @@
 // http://opensource.org/licenses/MIT>, at your option. This file may not be
 // copied, modified, or distributed except according to those terms.
 
-//! Array Tool
+//! # Array Tool
 //!
-//! Array Tool is a collection of powerful methods for working with collections.
+//! is a collection of powerful methods for working with collections.
+//! Some of the most common methods you would use on Arrays made available
+//! on Vectors. Polymorphic implementations for handling most of your use cases.
+//!
+//! In your rust files where you plan to use it put this at the top
+//!
+//! ```
+//! extern crate array_tool;
+//! ```
+//!
+//! And if you plan to use all of the Vector helper methods available:
+//!
+//! ```
+//! use array_tool::vec::*;
+//! ```
 
 /// Array Tool provides many useful methods for vectors
 pub mod vec {

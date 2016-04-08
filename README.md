@@ -74,6 +74,11 @@ use array_tool::vec::Union;
 fn union(&self, other: Vec<T>) -> Vec<T>
   //  vec!["a","b","c"].union(vec!["c","d","a"])   // input
   //  vec![ "a", "b", "c", "d" ]                   // return value
+
+use array_tool::string::Justify;
+fn justify_line(&self, width: usize) -> String;
+  //  "asd as df asd".justify_line(16), "asd  as  df  asd"
+  //  "asd as df asd".justify_line(18), "asd   as   df  asd"
 ```
 
 ##Future plans

@@ -27,25 +27,10 @@
 //! ```
 //! use array_tool::vec::*;
 //! ```
+//!
+//! This crate is not limited to just Vector methods and has some helpful
+//! string methods as well.
 
 include!("vec.rs");
 include!("string.rs");
-
-/// Get `uniques` from two vectors
-///
-/// # Example
-/// ```
-/// use array_tool::uniques;
-///
-/// uniques(vec![1,2,3,4,5], vec![2,5,6,7,8]);
-/// ```
-///
-/// # Output
-/// ```text
-/// vec![vec![1,3,4], vec![6,7,8]]
-/// ```
-pub fn uniques<T: PartialEq + Clone>(a: Vec<T>, b: Vec<T>) -> Vec<Vec<T>> {
-  use self::vec::Uniq;
-  vec![a.uniq(b.clone()), b.uniq(a)]
-}
-
+include!("core.rs");

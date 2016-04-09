@@ -69,8 +69,8 @@ fn join(&self, joiner: &'static str) -> String
 
 use array_tool::vec::Times;
 fn times(&self, qty: i32) -> Vec<T>
-  //  vec![1,2,3].times(3)                // input
-  //  vec![1,2,3,1,2,3,1,2,3]             // return value
+  //  vec![1,2,3].times(3)                 // input
+  //  vec![1,2,3,1,2,3,1,2,3]              // return value
 
 use array_tool::vec::Union;
 fn union(&self, other: Vec<T>) -> Vec<T>
@@ -79,15 +79,28 @@ fn union(&self, other: Vec<T>) -> Vec<T>
 
 use array_tool::string::Justify;
 fn justify_line(&self, width: usize) -> String;
-  //  "asd as df asd".justify_line(16), "asd  as  df  asd"
-  //  "asd as df asd".justify_line(18), "asd   as   df  asd"
+  //  "asd as df asd".justify_line(16)     // input
+  //  "asd  as  df  asd"                   // return value
+  //  "asd as df asd".justify_line(18)     // input
+  //  "asd   as   df  asd"                 // return value
+
+use array_tool::string::SubstMarks;
+fn subst_marks(&self, marks: Vec<usize>, chr: &'static str) -> String;
+  //  "asdf asdf asdf".subst_marks(vec![0,5,8], "Z") // input
+  //  "Zsdf ZsdZ asdf"                               // return value
+
+use array_tool::string::WordWrap;
+fn word_wrap(&self, width: usize) -> String;
+
+  //  "01234 67 9 BC EFG IJ".word_wrap(6)  // input
+  //  "01234\n67 9\nBC\nEFG IJ"            // return value
 ```
 
 ##Future plans
 
-I plan to implement many of the methods available for Arrays in
-higher languages; such as Ruby.  Ideally all methods will be optimized
-for efficiency (most are).  Expect regular updates.
+Expect methods to become more polymorphic over time (same method implemented
+for similar & compatible types).  I plan to implement many of the methods
+available for Arrays in higher languages; such as Ruby. Expect regular updates.
 
 ## License
 

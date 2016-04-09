@@ -22,6 +22,28 @@ fn it_substitutes_character_at_each_indexed_point() {
 }
 
 #[test]
+fn it_seeks_end_of_whitespace_after_offset() {
+  use array_tool::string::AfterWhitespace;
+
+  assert_eq!(
+    "asdf           asdf asdf".seek_end_of_whitespace(6),
+    Some(9)
+  );
+  assert_eq!(
+    "asdf".seek_end_of_whitespace(3),
+    Some(0)
+  );
+  assert_eq!(
+    "asdf           ".seek_end_of_whitespace(6),
+    None
+  );
+  assert_eq!(
+    "asdf".seek_end_of_whitespace(6),
+    None
+  );
+}
+
+#[test]
 fn it_word_wraps_for_string() {
   use array_tool::string::WordWrap;
 
@@ -30,15 +52,28 @@ fn it_word_wraps_for_string() {
     "01234\n67 9\nBC\nEFG IJ"
   );
 
+  assert_eq!(
+    "0123456789ABC EFG IJ".word_wrap(6),
+    "0123456789ABC\nEFG IJ"
+  );
   // assert_eq!(
-  //   "0123456789ABC EFG IJ".word_wrap(6),
-  //   "0123456789ABC\nEFG IJ"
+  //   "1234\n 1234 6789 1234".word_wrap(10),
+  //   "1234\n 1234 6789\n1234"
   // );
+  // assert_eq!(
+  //   "1234\n 1234 67 90 1234".word_wrap(10),
+  //   "1234\n 1234 67 90\n1234"
+  // );
+  assert_eq!(
+    "1234\n 1234 67 90A 1234".word_wrap(10),
+    "1234\n 1234 67\n90A 1234"
+  );
+  assert_eq!("1  \n34 ".word_wrap(3), "1  \n34 ");
+  assert_eq!("1   34".word_wrap(3),   "1 \n 34");
+  assert_eq!("\n \n \n \n".word_wrap(1), "\n \n \n \n" );
 
-  // assert_eq!(
-  //   "----\n ---- ---- ----".word_wrap(10),
-  //   "----\n ---- ----\n----"
-  // );
+  // White space to new line shouldn't add new lines.  Use seek ahead.
+  //assert_eq!("\nAA\nA \nA   \n".word_wrap(1), "\nAA\nA \nA   \n" );
 }
 
 

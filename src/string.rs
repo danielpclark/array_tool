@@ -90,6 +90,34 @@ pub mod string {
       output
     }
   }
+  /// After whitespace
+  pub trait AfterWhitespace {
+    /// Given offset method will seek from there to end of string to find the first
+    /// non white space.
+    fn seek_end_of_whitespace(&self, offset: usize) -> Option<usize>;
+  }
+  impl AfterWhitespace for &'static str {
+    #![allow(unsafe_code)]
+    fn seek_end_of_whitespace(&self, offset: usize) -> Option<usize> {
+      if self.len() < offset { return None; };
+      let mut seeker = unsafe {self.slice_unchecked(offset, self.len())}.chars();
+      let mut val = None;
+      let mut indx = 0;
+      loop {
+        match seeker.next() {
+          Some(x) => {
+            if x.ne(&" ".chars().next().unwrap()) {
+              val = Some(indx);
+              break;
+            }
+            indx += 1;
+          },
+          None => { break; },
+        }
+      }
+      val
+    }
+  }
 
   /// Word wrapping
   pub trait WordWrap {
@@ -112,20 +140,34 @@ pub mod string {
     fn word_wrap(&self, width: usize) -> String {
       let mut markers = vec![];
       fn wordwrap(t: &'static str, chunk: usize, offset: usize, mrkrs: &mut Vec<usize>) -> String {
-        let mark = unsafe {
-          t.slice_unchecked(offset,offset+chunk)
-        }.rfind(" ");
-        match mark {
-          Some(x) => {
-            if offset+chunk < t.len() {
-              mrkrs.push(offset + x)
-            };
-            wordwrap(t, chunk, offset+x+1, mrkrs)
-          },
+        let nl = unsafe {
+          t.slice_unchecked(offset,offset+chunk+1) // Check if "\n" esists even 1 beyond chunk
+        }.rfind("\n");
+        match nl {
           None => {
-            use string::SubstMarks;
+            let mark = unsafe {
+              t.slice_unchecked(offset,offset+chunk)
+            }.rfind(" ");
+            match mark {
+              Some(x) => {
+                if offset+chunk < t.len() {
+                  mrkrs.push(offset + x)
+                };
+                wordwrap(t, chunk, offset+x+1, mrkrs)
+              },
+              None => { 
+                if offset+chunk < t.len() { // String may continue
+                  wordwrap(t, chunk, offset+1, mrkrs) // Recurse + 1 until next space
+                } else {
+                  use string::SubstMarks;
 
-            return t.subst_marks(mrkrs.to_vec(), "\n")
+                  return t.subst_marks(mrkrs.to_vec(), "\n")
+                }
+              },
+            }
+          },
+          Some(x) => {
+            wordwrap(t, chunk, offset+x+1, mrkrs)
           },
         }
       };

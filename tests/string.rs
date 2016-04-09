@@ -29,6 +29,16 @@ fn it_word_wraps_for_string() {
     "01234 67 9 BC EFG IJ".word_wrap(6),
     "01234\n67 9\nBC\nEFG IJ"
   );
+
+  // assert_eq!(
+  //   "0123456789ABC EFG IJ".word_wrap(6),
+  //   "0123456789ABC\nEFG IJ"
+  // );
+
+  // assert_eq!(
+  //   "----\n ---- ---- ----".word_wrap(10),
+  //   "----\n ---- ----\n----"
+  // );
 }
 
 

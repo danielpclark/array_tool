@@ -7,7 +7,7 @@
 
 /// A string is a collection so we should have more methods for handling strings. 
 pub mod string {
-  /// Justified
+  /// Justify - expand line to given width
   pub trait Justify {
     /// # Example
     /// ```
@@ -62,7 +62,7 @@ pub mod string {
     }
   }
 
-  /// Substitute string character at each marker given
+  /// Substitute string character for each index given
   pub trait SubstMarks {
     /// # Example
     /// ```

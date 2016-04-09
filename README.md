@@ -91,7 +91,6 @@ fn subst_marks(&self, marks: Vec<usize>, chr: &'static str) -> String;
 
 use array_tool::string::WordWrap;
 fn word_wrap(&self, width: usize) -> String;
-
   //  "01234 67 9 BC EFG IJ".word_wrap(6)  // input
   //  "01234\n67 9\nBC\nEFG IJ"            // return value
 ```

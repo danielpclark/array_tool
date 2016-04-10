@@ -148,7 +148,7 @@ pub mod string {
       let mut markers = vec![];
       fn wordwrap(t: &'static str, chunk: usize, offset: usize, mrkrs: &mut Vec<usize>) -> String {
         let nl = unsafe {
-          t.slice_unchecked(offset,offset+chunk+1) // Check if "\n" esists even 1 beyond chunk
+          t.slice_unchecked(offset,offset+chunk+1) // Check if "\n" exists even 1 beyond chunk
         }.rfind("\n");
         match nl {
           None => {

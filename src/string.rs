@@ -90,17 +90,18 @@ pub mod string {
       output
     }
   }
+
   /// After whitespace
   pub trait AfterWhitespace {
     /// Given offset method will seek from there to end of string to find the first
-    /// non white space.
+    /// non white space.  Resulting value is counted from offset.
     fn seek_end_of_whitespace(&self, offset: usize) -> Option<usize>;
   }
   impl AfterWhitespace for &'static str {
     #![allow(unsafe_code)]
     fn seek_end_of_whitespace(&self, offset: usize) -> Option<usize> {
       if self.len() < offset { return None; };
-      let mut seeker = unsafe {self.slice_unchecked(offset, self.len())}.chars();
+      let mut seeker = unsafe { self.slice_unchecked(offset, self.len()) }.chars();
       let mut val = None;
       let mut indx = 0;
       loop {
@@ -121,6 +122,12 @@ pub mod string {
 
   /// Word wrapping
   pub trait WordWrap {
+    ///  White space is treated as valid content and new lines will only be swapped in for
+    ///  the last white space character at the end of the given width.  White space may reach beyond
+    ///  the width you've provided.  You will need to trim end of lines in your own output (e.g.
+    ///  splitting string at each new line and printing the line with trim_right).  Or just trust
+    ///  that lines that are beyond the width are just white space and only print the width -
+    ///  ignoring tailing white space.
     ///
     /// # Example
     /// ```
@@ -150,10 +157,26 @@ pub mod string {
             }.rfind(" ");
             match mark {
               Some(x) => {
+                let mut eows = x; // end of white space
+                // check if white space continues
                 if offset+chunk < t.len() {
-                  mrkrs.push(offset + x)
+                  match t.seek_end_of_whitespace(offset+x) {
+                    Some(a) => {
+                      if a.ne(&0) {
+                        eows = x+a-1;
+                      }
+                    },
+                    None => {},
+                  }
+                }
+                if offset+chunk < t.len() {
+                  if !["\n".chars().next().unwrap(), " ".chars().next().unwrap()].contains(
+                    &t.chars().nth(offset+eows+1).unwrap()
+                  ) {
+                    mrkrs.push(offset+eows)
+                  }
                 };
-                wordwrap(t, chunk, offset+x+1, mrkrs)
+                wordwrap(t, chunk, offset+eows+1, mrkrs)
               },
               None => { 
                 if offset+chunk < t.len() { // String may continue

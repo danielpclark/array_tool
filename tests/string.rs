@@ -69,11 +69,12 @@ fn it_word_wraps_for_string() {
     "1234\n 1234 67\n90A 1234"
   );
   assert_eq!("1  \n34 ".word_wrap(3), "1  \n34 ");
-  assert_eq!("1   34".word_wrap(3),   "1 \n 34");
+  assert_eq!("1   34".word_wrap(3),   "1  \n34");
   assert_eq!("\n \n \n \n".word_wrap(1), "\n \n \n \n" );
+  assert_eq!("\n \n \n \n     ".word_wrap(1), "\n \n \n \n     " );
 
   // White space to new line shouldn't add new lines.  Use seek ahead.
-  //assert_eq!("\nAA\nA \nA   \n".word_wrap(1), "\nAA\nA \nA   \n" );
+  assert_eq!("\nAA\nA \nA   \n".word_wrap(1), "\nAA\nA \nA   \n" );
 }
 
 

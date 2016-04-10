@@ -84,7 +84,7 @@ pub mod string {
         if marks.contains(&x) {
           output.push_str(chr)
         } else {
-          output.push(self.chars().nth(x).unwrap())
+          output.push(self[x..x+1].chars().next().unwrap())
         }
       }
       output
@@ -151,15 +151,15 @@ pub mod string {
     /// ```
     fn word_wrap(&self, width: usize) -> String;
   }
+  // No need to worry about character encoding since we're only checking for the
+  // space and new line characters.
   impl WordWrap for &'static str {
     fn word_wrap(&self, width: usize) -> String {
       let mut markers = vec![];
       fn wordwrap(t: &'static str, chunk: usize, offset: usize, mrkrs: &mut Vec<usize>) -> String {
-        let nl = t[offset..*vec![offset+chunk,t.len()].iter().min().unwrap()].rfind("\n");
-        match nl {
+        match t[offset..*vec![offset+chunk,t.len()].iter().min().unwrap()].rfind("\n") {
           None => {
-            let mark = t[offset..*vec![offset+chunk,t.len()].iter().min().unwrap()].rfind(" ");
-            match mark {
+            match t[offset..*vec![offset+chunk,t.len()].iter().min().unwrap()].rfind(" ") {
               Some(x) => {
                 let mut eows = x; // end of white space
                 if offset+chunk < t.len() { // check if white space continues
@@ -174,7 +174,7 @@ pub mod string {
                 }
                 if offset+chunk < t.len() { // safe to seek ahead by 1 or not end of string
                   if !["\n".chars().next().unwrap(), " ".chars().next().unwrap()].contains(
-                    &t.chars().nth(offset+eows+1).unwrap()
+                    &t[offset+eows+1..offset+eows+2].chars().next().unwrap()
                   ) {
                     mrkrs.push(offset+eows)
                   }

@@ -1,5 +1,9 @@
 #![feature(test)]
 
+// NOTES
+//
+// string slices are faster than character iteration with method nth.
+
 extern crate test;
 use test::Bencher;
 extern crate array_tool;
@@ -14,7 +18,7 @@ fn uniques1(b: &mut Bencher){
   })
 }
 
-#[bench] // 100% performance improvement
+#[bench] 
 fn times(b: &mut Bencher){
   b.iter(|| {
     use array_tool::vec::Times;
@@ -22,3 +26,19 @@ fn times(b: &mut Bencher){
   });
 }
 
+#[bench] 
+fn subst_marks(b: &mut Bencher){
+  b.iter(|| {
+    use array_tool::string::SubstMarks;
+    "dfgklerfgseawrfgawergq35g4w6uw4372472q4762q47yq35uw4567u32qy7q3yuq3".subst_marks(
+    vec![0,3,6,9,12,24,34,40], "Z");
+  });
+}
+
+#[bench] 
+fn word_wrap(b: &mut Bencher){
+  b.iter(|| {
+    use array_tool::string::WordWrap;
+    "asdf sdf s df d sd\n sf  sfg  sg   g\n      sfdgsg\n gfdga a\n     ".word_wrap(3);
+  });
+}

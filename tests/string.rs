@@ -18,6 +18,7 @@ fn it_substitutes_character_at_each_indexed_point() {
   use array_tool::string::SubstMarks;
 
   assert_eq!("asdf asdf asdf".subst_marks(vec![0,5,8], "Z"), "Zsdf ZsdZ asdf");
+  assert_eq!("asdf asdf asdf".subst_marks(vec![8,5,0], "Z"), "Zsdf ZsdZ asdf");
   assert_eq!("asdf asdf asdf".subst_marks(vec![0,5,8], "\n"), "\nsdf \nsd\n asdf");
 }
 

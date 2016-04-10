@@ -1,7 +1,8 @@
 # array_tool
-[![Crate](https://img.shields.io/badge/crates.io-v0.3.2-orange.svg)](https://crates.io/crates/array_tool)
 [![Build Status](https://travis-ci.org/danielpclark/array_tool.svg)](https://travis-ci.org/danielpclark/array_tool)
 [![Documentation](https://img.shields.io/badge/docs-100%25-brightgreen.svg)](http://danielpclark.github.io/array_tool/index.html)
+[![crates.io version](https://img.shields.io/crates/v/array_tool.svg)](https://crates.io/crates/array_tool)
+[![License](https://img.shields.io/crates/l/array_tool.svg)]()
 
 Array helpers for Rust.  Some of the most common methods you would
 use on Arrays made available on Vectors.  Polymorphic implementations

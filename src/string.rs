@@ -95,13 +95,22 @@ pub mod string {
   pub trait AfterWhitespace {
     /// Given offset method will seek from there to end of string to find the first
     /// non white space.  Resulting value is counted from offset.
+    ///
+    /// # Example
+    /// ```
+    /// use array_tool::string::AfterWhitespace;
+    ///
+    /// assert_eq!(
+    ///   "asdf           asdf asdf".seek_end_of_whitespace(6),
+    ///   Some(9)
+    /// );
+    /// ```
     fn seek_end_of_whitespace(&self, offset: usize) -> Option<usize>;
   }
   impl AfterWhitespace for &'static str {
-    #![allow(unsafe_code)]
     fn seek_end_of_whitespace(&self, offset: usize) -> Option<usize> {
       if self.len() < offset { return None; };
-      let mut seeker = unsafe { self.slice_unchecked(offset, self.len()) }.chars();
+      let mut seeker = self[offset..self.len()].chars();
       let mut val = None;
       let mut indx = 0;
       loop {
@@ -143,23 +152,17 @@ pub mod string {
     fn word_wrap(&self, width: usize) -> String;
   }
   impl WordWrap for &'static str {
-    #![allow(unsafe_code)]
     fn word_wrap(&self, width: usize) -> String {
       let mut markers = vec![];
       fn wordwrap(t: &'static str, chunk: usize, offset: usize, mrkrs: &mut Vec<usize>) -> String {
-        let nl = unsafe {
-          t.slice_unchecked(offset,offset+chunk+1) // Check if "\n" exists even 1 beyond chunk
-        }.rfind("\n");
+        let nl = t[offset..*vec![offset+chunk,t.len()].iter().min().unwrap()].rfind("\n");
         match nl {
           None => {
-            let mark = unsafe {
-              t.slice_unchecked(offset,offset+chunk)
-            }.rfind(" ");
+            let mark = t[offset..*vec![offset+chunk,t.len()].iter().min().unwrap()].rfind(" ");
             match mark {
               Some(x) => {
                 let mut eows = x; // end of white space
-                // check if white space continues
-                if offset+chunk < t.len() {
+                if offset+chunk < t.len() { // check if white space continues
                   match t.seek_end_of_whitespace(offset+x) {
                     Some(a) => {
                       if a.ne(&0) {
@@ -169,7 +172,7 @@ pub mod string {
                     None => {},
                   }
                 }
-                if offset+chunk < t.len() {
+                if offset+chunk < t.len() { // safe to seek ahead by 1 or not end of string
                   if !["\n".chars().next().unwrap(), " ".chars().next().unwrap()].contains(
                     &t.chars().nth(offset+eows+1).unwrap()
                   ) {
@@ -194,7 +197,7 @@ pub mod string {
           },
         }
       };
-      wordwrap(self, width, 0, &mut markers)
+      wordwrap(self, width+1, 0, &mut markers)
     }
   }
 }

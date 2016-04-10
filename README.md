@@ -1,5 +1,5 @@
 # array_tool
-[![Crate](https://img.shields.io/badge/crates.io-v0.3.1-orange.svg)](https://crates.io/crates/array_tool)
+[![Crate](https://img.shields.io/badge/crates.io-v0.3.2-orange.svg)](https://crates.io/crates/array_tool)
 [![Build Status](https://travis-ci.org/danielpclark/array_tool.svg)](https://travis-ci.org/danielpclark/array_tool)
 [![Documentation](https://img.shields.io/badge/docs-100%25-brightgreen.svg)](http://danielpclark.github.io/array_tool/index.html)
 
@@ -12,7 +12,7 @@ for handling most of your use cases.
 Add the following to your Cargo.toml file
 ```
 [dependencies]
-array_tool = "0.3.1"
+array_tool = "0.3.2"
 ```
 
 And in your rust files where you plan to use it put this at the top
@@ -93,6 +93,16 @@ use array_tool::string::WordWrap;
 fn word_wrap(&self, width: usize) -> String;
   //  "01234 67 9 BC EFG IJ".word_wrap(6)  // input
   //  "01234\n67 9\nBC\nEFG IJ"            // return value
+
+use array_tool::string::AfterWhitespace;
+fn seek_end_of_whitespace(&self, offset: usize) -> Option<usize>;
+  //  "asdf           asdf asdf".seek_end_of_whitespace(6) // input
+  //  Some(9)                                              // output
+  //  "asdf".seek_end_of_whitespace(3)                     // input
+  //  Some(0)                                              // output
+  //  "asdf           ".seek_end_of_whitespace(6)          // input
+  //  None                                                 // ouput
+
 ```
 
 ##Future plans

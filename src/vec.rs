@@ -1,5 +1,5 @@
 // Copyright 2015-2016 Daniel P. Clark & array_tool Developers
-// 
+//
 // Licensed under the Apache License, Version 2.0, <LICENSE-APACHE or
 // http://apache.org/licenses/LICENSE-2.0> or the MIT license <LICENSE-MIT or
 // http://opensource.org/licenses/MIT>, at your option. This file may not be
@@ -130,7 +130,7 @@ pub mod vec {
 
   /// Set Intersection — Returns a new array containing elements common to the two arrays,
   /// excluding any duplicates. The order is preserved from the original array.
-  pub trait Intersect {
+  pub trait Intersect<T> {
     /// # Example
     /// ```
     /// use array_tool::vec::Intersect;
@@ -143,15 +143,31 @@ pub mod vec {
     /// vec![1,3]
     /// ```
     fn intersect(&self, Self) -> Self;
+    /// # Example
+    /// ```
+    /// # use std::ascii::AsciiExt;
+    /// use array_tool::vec::Intersect;
+    ///
+    /// vec!['a','a','c','e'].intersect_if(vec!['A','B','C'], |l, r| l.eq_ignore_ascii_case(r));
+    /// ```
+    ///
+    /// # Output
+    /// ```text
+    /// vec!['a','c']
+    /// ```
+    fn intersect_if<F: Fn(&T, &T) -> bool>(&self, Self, validator: F) -> Self;
   }
-  impl<T: PartialEq + Clone> Intersect for Vec<T> {
+  impl<T: PartialEq + Clone> Intersect<T> for Vec<T> {
     fn intersect(&self, other: Vec<T>) -> Vec<T> {
+      self.intersect_if(other, |l, r| l == r)
+    }
+    fn intersect_if<F: Fn(&T, &T) -> bool>(&self, other: Self, validator: F) -> Self {
       let mut out = vec![];
       let a = self.unique();
       let length = other.len();
       for x in a {
         for y in 0..length {
-          if x == other[y] {
+          if validator(&x, &other[y]) {
             out.push(x);
             break;
           }
@@ -214,7 +230,7 @@ pub mod vec {
       out
     }
   }
-  
+
   /// Create a `union` between two vectors.
   /// Returns a new vector by joining with other, excluding any duplicates and preserving
   /// the order from the original vector.

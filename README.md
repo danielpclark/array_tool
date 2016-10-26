@@ -33,7 +33,7 @@ This crate has helpful methods for strings as well.
 ```rust
 pub fn uniques<T: PartialEq + Clone>(a: Vec<T>, b: Vec<T>) -> Vec<Vec<T>>
   //  array_tool::uniques(vec![1,2,3,4,5], vec![2,5,6,7,8]), // input
-  //  vec![vec![1,3,4], vec![6,7,8]]                         // return value  
+  //  vec![vec![1,3,4], vec![6,7,8]]                         // return value
 
 use array_tool::vec::Uniq;
 fn uniq(&self, other: Vec<T>) -> Vec<T>
@@ -62,6 +62,9 @@ use array_tool::vec::Intersect;
 fn intersect(&self, other: Vec<T>) -> Vec<T>
   //  vec![1,1,3,5].intersect(vec![1,2,3]) // input
   //  vec![1,3]                            // return value
+fn intersect_if<F: Fn(&T, &T) -> bool>(&self, other: Vec<T>, validator: F) -> Vec<T>
+  //  vec!['a','a','c','e'].intersect_if(vec!['A','B','C'], |l, r| l.eq_ignore_ascii_case(r)) // input
+  //  vec!['a','c']                                                                           // return value
 
 use array_tool::vec::Join;
 fn join(&self, joiner: &'static str) -> String

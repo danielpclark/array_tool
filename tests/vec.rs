@@ -42,6 +42,13 @@ fn it_intersects() {
 }
 
 #[test]
+fn it_intersects_if() {
+  use array_tool::vec::Intersect;
+  use std::ascii::AsciiExt;
+  assert_eq!(vec!['a','a','c','e'].intersect_if(vec!['A','B','C'], |l, r| l.eq_ignore_ascii_case(r)), vec!['a','c']);
+}
+
+#[test]
 fn it_multiplies(){
   use array_tool::vec::Times;
   assert_eq!(vec![1,2,3].times(3), vec![1,2,3,1,2,3,1,2,3])

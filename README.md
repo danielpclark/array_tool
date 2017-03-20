@@ -8,7 +8,7 @@ Array helpers for Rust.  Some of the most common methods you would
 use on Arrays made available on Vectors.  Polymorphic implementations
 for handling most of your use cases.
 
-###Installation
+### Installation
 
 Add the following to your Cargo.toml file
 ```
@@ -28,7 +28,7 @@ use array_tool::vec::*;
 
 This crate has helpful methods for strings as well.
 
-###Usage
+### Usage
 
 ```rust
 pub fn uniques<T: PartialEq + Clone>(a: Vec<T>, b: Vec<T>) -> Vec<Vec<T>>
@@ -109,7 +109,7 @@ fn seek_end_of_whitespace(&self, offset: usize) -> Option<usize>;
 
 ```
 
-##Future plans
+## Future plans
 
 Expect methods to become more polymorphic over time (same method implemented
 for similar & compatible types).  I plan to implement many of the methods

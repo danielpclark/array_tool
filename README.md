@@ -8,12 +8,13 @@ Array helpers for Rust.  Some of the most common methods you would
 use on Arrays made available on Vectors.  Polymorphic implementations
 for handling most of your use cases.
 
+
 ### Installation
 
 Add the following to your Cargo.toml file
 ```
 [dependencies]
-array_tool = "0.3.4"
+array_tool = "0.3.5"
 ```
 
 And in your rust files where you plan to use it put this at the top

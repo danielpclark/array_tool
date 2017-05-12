@@ -1,4 +1,4 @@
-// Copyright 2015-2016 Daniel P. Clark & array_tool Developers
+// Copyright 2015-2017 Daniel P. Clark & array_tool Developers
 //
 // Licensed under the Apache License, Version 2.0, <LICENSE-APACHE or
 // http://apache.org/licenses/LICENSE-2.0> or the MIT license <LICENSE-MIT or
@@ -222,6 +222,7 @@ pub mod vec {
   }
   impl<T: Clone> Times for Vec<T> {
     fn times(&self, qty: i32) -> Vec<T> {
+      if self.is_empty() { return vec![] };
       let mut out = vec![self[0].clone();self.len()*(qty as usize)];
       let mut cycle = self.iter().cycle();
       for x in 0..self.len()*(qty as usize) {

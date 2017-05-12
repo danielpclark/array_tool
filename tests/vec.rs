@@ -51,7 +51,12 @@ fn it_intersects_if() {
 #[test]
 fn it_multiplies(){
   use array_tool::vec::Times;
-  assert_eq!(vec![1,2,3].times(3), vec![1,2,3,1,2,3,1,2,3])
+  assert_eq!(vec![1,2,3].times(3), vec![1,2,3,1,2,3,1,2,3]);
+
+  // Empty collection
+  let vec1: Vec<i32> = Vec::new();
+  let vec2: Vec<i32> = Vec::new();
+  assert_eq!(vec1.times(4), vec2)
 }
 
 #[test]

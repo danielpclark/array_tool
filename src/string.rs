@@ -34,10 +34,10 @@ pub mod string {
       let mut iter = trimmed.split_whitespace().peekable();
       if spaces == 0 { return self.to_string(); }
       let mut obj = String::with_capacity(width);
-      
+
       let div = difference / spaces;
       let mut remainder = difference % spaces;
-      
+
       loop {
         match iter.next() {
           Some(x) => {
@@ -75,19 +75,31 @@ pub mod string {
     /// ```text
     /// "Zsdf ZsdZ asdf"
     /// ```
-    fn subst_marks(&self, marks: Vec<usize>, chr: &'static str) -> String;
+  fn subst_marks(&self, marks: Vec<usize>, chr: &'static str) -> String;
   }
   impl SubstMarks for &'static str {
     fn subst_marks(&self, marks: Vec<usize>, chr: &'static str) -> String {
-      let mut output = String::with_capacity(self.len());
-      for x in 0..self.len() {
-        if marks.contains(&x) {
-          output.push_str(chr)
-        } else {
-          output.push(self[x..x+1].chars().next().unwrap())
+      let mut output = Vec::<u8>::with_capacity(self.len());
+      let mut count = 0;
+      let mut last = 0;
+      for i in 0..self.len() {
+        let idx = i + 1;
+        if self.is_char_boundary(idx) {
+          if marks.contains(&count) {
+            count += 1;
+            last = idx;
+            output.extend_from_slice(chr.as_bytes());
+            continue
+          }
+          
+          let slice: &[u8] = self[last..idx].as_bytes();
+          output.extend_from_slice(slice);
+
+          count += 1;
+          last = idx
         }
       }
-      output
+      String::from_utf8(output).expect("subst_marks failed to render String!")
     }
   }
 
@@ -175,7 +187,7 @@ pub mod string {
                 if offset+chunk < t.len() { // safe to seek ahead by 1 or not end of string
                   if !["\n".chars().next().unwrap(), " ".chars().next().unwrap()].contains(
                     &t[offset+eows+1..offset+eows+2].chars().next().unwrap()
-                  ) {
+                    ) {
                     mrkrs.push(offset+eows)
                   }
                 };

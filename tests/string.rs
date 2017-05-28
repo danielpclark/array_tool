@@ -13,6 +13,17 @@ fn it_justifies_one_line_in_for_string() {
   assert_eq!("asdasdfasd".justify_line(6), "asdasdfasd");
 }
 
+// #[test]
+// fn it_iterates_over_every_grapheme_character() {
+//   use array_tool::string::GraphemeIterator;
+//   let mut giter = GraphemeIterator { source: "asdf", offset: 0 };
+// 
+//   assert_eq!(giter.next().unwrap(), "a");
+//   assert_eq!(giter.next().unwrap(), "s");
+//   assert_eq!(giter.next().unwrap(), "d");
+//   assert_eq!(giter.next().unwrap(), "f");
+// }
+
 #[test]
 fn it_substitutes_character_at_each_indexed_point() {
   use array_tool::string::SubstMarks;
@@ -20,6 +31,10 @@ fn it_substitutes_character_at_each_indexed_point() {
   assert_eq!("asdf asdf asdf".subst_marks(vec![0,5,8], "Z"), "Zsdf ZsdZ asdf");
   assert_eq!("asdf asdf asdf".subst_marks(vec![8,5,0], "Z"), "Zsdf ZsdZ asdf");
   assert_eq!("asdf asdf asdf".subst_marks(vec![0,5,8], "\n"), "\nsdf \nsd\n asdf");
+  assert_eq!("ééé".subst_marks(vec![1], "Z"), "éZé");
+  assert_eq!("ééé".subst_marks(vec![1,2], "Z"), "éZZ");
+  assert_eq!("ZZZ".subst_marks(vec![0,2], "é" ), "éZé");
+  assert_eq!("ééé".subst_marks(vec![0], "Z"), "Zéé");
 }
 
 #[test]

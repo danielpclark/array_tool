@@ -47,6 +47,11 @@ pub mod string {
       result
     }
   }
+  impl<'a> ExactSizeIterator for GraphemeBytesIter<'a> {
+    fn len(&self) -> usize {
+      self.source.chars().count()
+    }
+  }
   /// ToGraphemeBytesIter - create an iterator to return bytes for each grapheme in a string.
   pub trait ToGraphemeBytesIter<'a> {
     /// Returns a GraphemeBytesIter which you may iterate over.
@@ -96,14 +101,14 @@ pub mod string {
   impl Justify for &'static str {
     fn justify_line(&self, width: usize) -> String {
       let trimmed = self.trim() ;
-      let len = trimmed.len();
+      let len = trimmed.chars().count();
       if len >= width { return self.to_string(); };
       let difference = width - len;
       let iter = trimmed.split_whitespace();
       let spaces = iter.count() - 1;
       let mut iter = trimmed.split_whitespace().peekable();
       if spaces == 0 { return self.to_string(); }
-      let mut obj = String::with_capacity(width);
+      let mut obj = String::with_capacity(trimmed.len() + spaces);
 
       let div = difference / spaces;
       let mut remainder = difference % spaces;
@@ -161,7 +166,7 @@ pub mod string {
             output.extend_from_slice(chr.as_bytes());
             continue
           }
-          
+
           let slice: &[u8] = self[last..idx].as_bytes();
           output.extend_from_slice(slice);
 

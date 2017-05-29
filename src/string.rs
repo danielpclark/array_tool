@@ -7,7 +7,7 @@
 
 /// A string is a collection so we should have more methods for handling strings. 
 pub mod string {
-  /// some doc
+  /// A grapheme iterator that produces the bytes for each grapheme.
   #[derive(Debug)]
   pub struct GraphemeBytesIter<'a> {
     source: &'a str,
@@ -15,7 +15,7 @@ pub mod string {
     grapheme_count: usize,
   }
   impl<'a> GraphemeBytesIter<'a> {
-    /// some doc
+    /// Creates a new grapheme iterator from a string source.
     pub fn new(source: &'a str) -> GraphemeBytesIter<'a> {
       GraphemeBytesIter {
         source: source,
@@ -42,14 +42,28 @@ pub mod string {
             result = Some(slice);
             break
           }
-        } 
+        }
       }
       result
     }
   }
-  /// some doc
+  /// ToGraphemeBytesIter - create an iterator to return bytes for each grapheme in a string.
   pub trait ToGraphemeBytesIter<'a> {
-    /// some doc
+    /// Returns a GraphemeBytesIter which you may iterate over.
+    ///
+    /// # Example
+    /// ```
+    /// use array_tool::string::ToGraphemeBytesIter;
+    ///
+    /// let string = "a s—d féZ";
+    /// let mut graphemes = string.grapheme_bytes_iter();
+    /// graphemes.skip(3).next();
+    /// ```
+    ///
+    /// # Output
+    /// ```text
+    /// [226, 128, 148]
+    /// ```
     fn grapheme_bytes_iter(&'a self) -> GraphemeBytesIter<'a>;
   }
   impl<'a> ToGraphemeBytesIter<'a> for &'static str {
@@ -63,7 +77,7 @@ pub mod string {
     }
   }
 
-  /// Justify - expand line to given width
+  /// Justify - expand line to given width.
   pub trait Justify {
     /// # Example
     /// ```
@@ -118,7 +132,7 @@ pub mod string {
     }
   }
 
-  /// Substitute string character for each index given
+  /// Substitute string character for each index given.
   pub trait SubstMarks {
     /// # Example
     /// ```

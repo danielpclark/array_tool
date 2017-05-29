@@ -82,6 +82,13 @@ fn union(&self, other: Vec<T>) -> Vec<T>
   //  vec!["a","b","c"].union(vec!["c","d","a"])   // input
   //  vec![ "a", "b", "c", "d" ]                   // return value
 
+use array_tool::string::ToGraphemeBytesIter;
+fn grapheme_bytes_iter(&'a self) -> GraphemeBytesIter<'a>;
+  //  let string = "a s—d féZ";
+  //  let mut graphemes = string.grapheme_bytes_iter()
+  //  graphemes.skip(3).next();            // input
+  //  [226, 128, 148]                      // return value for emdash `—`
+
 use array_tool::string::Justify;
 fn justify_line(&self, width: usize) -> String;
   //  "asd as df asd".justify_line(16)     // input
@@ -102,11 +109,11 @@ fn word_wrap(&self, width: usize) -> String;
 use array_tool::string::AfterWhitespace;
 fn seek_end_of_whitespace(&self, offset: usize) -> Option<usize>;
   //  "asdf           asdf asdf".seek_end_of_whitespace(6) // input
-  //  Some(9)                                              // output
+  //  Some(9)                                              // return value
   //  "asdf".seek_end_of_whitespace(3)                     // input
-  //  Some(0)                                              // output
+  //  Some(0)                                              // return value
   //  "asdf           ".seek_end_of_whitespace(6)          // input
-  //  None                                                 // ouput
+  //  None                                                 // return_value
 
 ```
 

@@ -7,6 +7,62 @@
 
 /// A string is a collection so we should have more methods for handling strings. 
 pub mod string {
+  /// some doc
+  #[derive(Debug)]
+  pub struct GraphemeBytesIter<'a> {
+    source: &'a str,
+    offset: usize,
+    grapheme_count: usize,
+  }
+  impl<'a> GraphemeBytesIter<'a> {
+    /// some doc
+    pub fn new(source: &'a str) -> GraphemeBytesIter<'a> {
+      GraphemeBytesIter {
+        source: source,
+        offset: 0,
+        grapheme_count: 0,
+      }
+    }
+  }
+  impl<'a> Iterator for GraphemeBytesIter<'a> {
+    type Item = &'a [u8];
+
+    fn next(&mut self) -> Option<&'a [u8]> {
+      let mut result: Option<&[u8]> = None;
+      let mut idx = self.offset;
+      for _ in self.offset..self.source.len() {
+        idx += 1;
+        if self.offset < self.source.len() {
+          if self.source.is_char_boundary(idx) {
+            let slice: &[u8] = self.source[self.offset..idx].as_bytes();
+
+            self.grapheme_count += 1;
+            self.offset = idx;
+
+            result = Some(slice);
+            break
+          }
+        } 
+      }
+      result
+    }
+  }
+  /// some doc
+  pub trait ToGraphemeBytesIter<'a> {
+    /// some doc
+    fn grapheme_bytes_iter(&'a self) -> GraphemeBytesIter<'a>;
+  }
+  impl<'a> ToGraphemeBytesIter<'a> for &'static str {
+    fn grapheme_bytes_iter(&'a self) -> GraphemeBytesIter<'a> {
+      GraphemeBytesIter::new(&self)
+    }
+  }
+  impl<'a> ToGraphemeBytesIter<'a> for String {
+    fn grapheme_bytes_iter(&'a self) -> GraphemeBytesIter<'a> {
+      GraphemeBytesIter::new(&self)
+    }
+  }
+
   /// Justify - expand line to given width
   pub trait Justify {
     /// # Example
@@ -75,7 +131,7 @@ pub mod string {
     /// ```text
     /// "Zsdf ZsdZ asdf"
     /// ```
-  fn subst_marks(&self, marks: Vec<usize>, chr: &'static str) -> String;
+    fn subst_marks(&self, marks: Vec<usize>, chr: &'static str) -> String;
   }
   impl SubstMarks for &'static str {
     fn subst_marks(&self, marks: Vec<usize>, chr: &'static str) -> String {

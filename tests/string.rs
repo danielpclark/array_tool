@@ -46,6 +46,7 @@ fn it_justifies_one_line_in_for_string() {
   assert_eq!("asdasdfasd".justify_line(16), "asdasdfasd");
   assert_eq!("asdasdfasd".justify_line(6), "asdasdfasd");
   assert_eq!("é é".justify_line(5), "é   é");
+  assert_eq!("a s—d féZ".justify_line(12), "a   s—d  féZ");
 }
 
 #[test]

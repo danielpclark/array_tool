@@ -13,16 +13,38 @@ fn it_justifies_one_line_in_for_string() {
   assert_eq!("asdasdfasd".justify_line(6), "asdasdfasd");
 }
 
-// #[test]
-// fn it_iterates_over_every_grapheme_character() {
-//   use array_tool::string::GraphemeIterator;
-//   let mut giter = GraphemeIterator { source: "asdf", offset: 0 };
-// 
-//   assert_eq!(giter.next().unwrap(), "a");
-//   assert_eq!(giter.next().unwrap(), "s");
-//   assert_eq!(giter.next().unwrap(), "d");
-//   assert_eq!(giter.next().unwrap(), "f");
-// }
+#[test]
+fn it_iterates_over_every_grapheme_character() {
+  use array_tool::string::ToGraphemeBytesIter;
+
+  let temp = "a s—d féZ";
+  let mut giter = temp.grapheme_bytes_iter();
+
+  assert_eq!(giter.next().unwrap(), "a".as_bytes());
+  assert_eq!(giter.next().unwrap(), " ".as_bytes());
+  assert_eq!(giter.next().unwrap(), "s".as_bytes());
+  assert_eq!(giter.next().unwrap(), "—".as_bytes());
+  assert_eq!(giter.next().unwrap(), "d".as_bytes());
+  assert_eq!(giter.next().unwrap(), " ".as_bytes());
+  assert_eq!(giter.next().unwrap(), "f".as_bytes());
+  assert_eq!(giter.next().unwrap(), "é".as_bytes());
+  assert_eq!(giter.next().unwrap(), "Z".as_bytes());
+  assert_eq!(giter.next(), None);
+
+  let somestring2 = format!("{}", "a s—d féZ");
+  let mut giter2 = somestring2.grapheme_bytes_iter();
+
+  assert_eq!(giter2.next().unwrap(), "a".as_bytes());
+  assert_eq!(giter2.next().unwrap(), " ".as_bytes());
+  assert_eq!(giter2.next().unwrap(), "s".as_bytes());
+  assert_eq!(giter2.next().unwrap(), "—".as_bytes());
+  assert_eq!(giter2.next().unwrap(), "d".as_bytes());
+  assert_eq!(giter2.next().unwrap(), " ".as_bytes());
+  assert_eq!(giter2.next().unwrap(), "f".as_bytes());
+  assert_eq!(giter2.next().unwrap(), "é".as_bytes());
+  assert_eq!(giter2.next().unwrap(), "Z".as_bytes());
+  assert_eq!(giter2.next(), None);
+}
 
 #[test]
 fn it_substitutes_character_at_each_indexed_point() {

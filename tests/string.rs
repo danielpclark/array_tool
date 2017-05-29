@@ -1,17 +1,5 @@
 extern crate array_tool;
 
-#[test]
-fn it_justifies_one_line_in_for_string() {
-  use array_tool::string::Justify;
-
-  assert_eq!("asd asdf asd".justify_line(14), "asd  asdf  asd");
-  assert_eq!("asd asdf asd".justify_line(16), "asd   asdf   asd");
-  assert_eq!("asd as df asd".justify_line(16), "asd  as  df  asd");
-  assert_eq!("asd as df asd".justify_line(18), "asd   as   df  asd");
-  assert_eq!("  asd as df asd  ".justify_line(16), "asd  as  df  asd");
-  assert_eq!("asdasdfasd".justify_line(16), "asdasdfasd");
-  assert_eq!("asdasdfasd".justify_line(6), "asdasdfasd");
-}
 
 #[test]
 fn it_iterates_over_every_grapheme_character() {
@@ -44,6 +32,21 @@ fn it_iterates_over_every_grapheme_character() {
   assert_eq!(giter2.next().unwrap(), "é".as_bytes());
   assert_eq!(giter2.next().unwrap(), "Z".as_bytes());
   assert_eq!(giter2.next(), None);
+}
+
+#[test]
+fn it_justifies_one_line_in_for_string() {
+  use array_tool::string::Justify;
+
+  assert_eq!("asd asdf asd".justify_line(14), "asd  asdf  asd");
+  assert_eq!("asd asdf asd".justify_line(16), "asd   asdf   asd");
+  assert_eq!("asd as df asd".justify_line(16), "asd  as  df  asd");
+  assert_eq!("asd as df asd".justify_line(18), "asd   as   df  asd");
+  assert_eq!("  asd as df asd  ".justify_line(16), "asd  as  df  asd");
+  assert_eq!("asdasdfasd".justify_line(16), "asdasdfasd");
+  assert_eq!("asdasdfasd".justify_line(6), "asdasdfasd");
+  assert_eq!("é é".justify_line(5), "é   é");
+  assert_eq!("a s—d féZ".justify_line(12), "a   s—d  féZ");
 }
 
 #[test]

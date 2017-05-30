@@ -1,5 +1,19 @@
 extern crate array_tool;
 
+#[test]
+fn it_squeezes_characters() {
+  use array_tool::string::Squeeze;
+
+  assert_eq!("yellow moon".squeeze(""), "yelow mon");
+  assert_eq!("  now   is  the".squeeze(" "), " now is the");
+  assert_eq!("ééé".squeeze(""), "é");
+  assert_eq!("  ///  aa".squeeze("/"), "  /  aa");
+
+  let string: String = format!("yellow moon");
+  assert_eq!(string.squeeze(""), "yelow mon");
+
+  assert_eq!("".squeeze(""), "");
+}
 
 #[test]
 fn it_iterates_over_every_grapheme_character() {
@@ -32,6 +46,8 @@ fn it_iterates_over_every_grapheme_character() {
   assert_eq!(giter2.next().unwrap(), "é".as_bytes());
   assert_eq!(giter2.next().unwrap(), "Z".as_bytes());
   assert_eq!(giter2.next(), None);
+
+  assert_eq!("".grapheme_bytes_iter().next(), None);
 }
 
 #[test]
@@ -47,6 +63,8 @@ fn it_justifies_one_line_in_for_string() {
   assert_eq!("asdasdfasd".justify_line(6), "asdasdfasd");
   assert_eq!("é é".justify_line(5), "é   é");
   assert_eq!("a s—d féZ".justify_line(12), "a   s—d  féZ");
+
+  assert_eq!("".justify_line(14), "");
 }
 
 #[test]
@@ -60,6 +78,8 @@ fn it_substitutes_character_at_each_indexed_point() {
   assert_eq!("ééé".subst_marks(vec![1,2], "Z"), "éZZ");
   assert_eq!("ZZZ".subst_marks(vec![0,2], "é" ), "éZé");
   assert_eq!("ééé".subst_marks(vec![0], "Z"), "Zéé");
+
+  assert_eq!("".subst_marks(vec![0], "Z"), "");
 }
 
 #[test]
@@ -70,6 +90,8 @@ fn it_seeks_end_of_whitespace_after_offset() {
   assert_eq!("asdf".seek_end_of_whitespace(3), Some(0));
   assert_eq!("asdf           ".seek_end_of_whitespace(6), None);
   assert_eq!("asdf".seek_end_of_whitespace(6), None);
+
+  assert_eq!("".seek_end_of_whitespace(6), None);
 }
 
 #[test]

@@ -71,14 +71,42 @@ pub mod string {
     /// ```
     fn grapheme_bytes_iter(&'a self) -> GraphemeBytesIter<'a>;
   }
-  impl<'a> ToGraphemeBytesIter<'a> for &'static str {
+  impl<'a> ToGraphemeBytesIter<'a> for str {
     fn grapheme_bytes_iter(&'a self) -> GraphemeBytesIter<'a> {
       GraphemeBytesIter::new(&self)
     }
   }
-  impl<'a> ToGraphemeBytesIter<'a> for String {
-    fn grapheme_bytes_iter(&'a self) -> GraphemeBytesIter<'a> {
-      GraphemeBytesIter::new(&self)
+
+  /// Squeeze - squeezes duplicate characters down to one each
+  pub trait Squeeze {
+    /// # Example
+    /// ```
+    /// use array_tool::string::Squeeze;
+    ///
+    /// "yellow moon".squeeze("");
+    /// ```
+    ///
+    /// # Output
+    /// ```text
+    /// "yelow mon"
+    /// ```
+    fn squeeze(&self, targets: &'static str) -> String;
+  }
+  impl Squeeze for str {
+    fn squeeze(&self, targets: &'static str) -> String {
+      let mut output = Vec::<u8>::with_capacity(self.len());
+      let everything: bool = targets.is_empty();
+      let chars = targets.grapheme_bytes_iter().collect::<Vec<&[u8]>>();
+      let mut last: &[u8] = &[0];
+      for character in self.grapheme_bytes_iter() {
+        if last != character {
+          output.extend_from_slice(character);
+        } else if !(everything || chars.contains(&character)) {
+          output.extend_from_slice(character);
+        }
+        last = character;
+      }
+      String::from_utf8(output).expect("squeeze failed to render String!")
     }
   }
 
@@ -98,8 +126,9 @@ pub mod string {
     fn justify_line(&self, width: usize) -> String;
   }
 
-  impl Justify for &'static str {
+  impl Justify for str {
     fn justify_line(&self, width: usize) -> String {
+      if self.is_empty() { return format!("{}", self) };
       let trimmed = self.trim() ;
       let len = trimmed.chars().count();
       if len >= width { return self.to_string(); };
@@ -152,7 +181,7 @@ pub mod string {
     /// ```
     fn subst_marks(&self, marks: Vec<usize>, chr: &'static str) -> String;
   }
-  impl SubstMarks for &'static str {
+  impl SubstMarks for str {
     fn subst_marks(&self, marks: Vec<usize>, chr: &'static str) -> String {
       let mut output = Vec::<u8>::with_capacity(self.len());
       let mut count = 0;
@@ -194,7 +223,7 @@ pub mod string {
     /// ```
     fn seek_end_of_whitespace(&self, offset: usize) -> Option<usize>;
   }
-  impl AfterWhitespace for &'static str {
+  impl AfterWhitespace for str {
     fn seek_end_of_whitespace(&self, offset: usize) -> Option<usize> {
       if self.len() < offset { return None; };
       let mut seeker = self[offset..self.len()].chars();

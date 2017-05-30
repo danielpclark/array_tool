@@ -14,7 +14,7 @@ for handling most of your use cases.
 Add the following to your Cargo.toml file
 ```
 [dependencies]
-array_tool = "0.3.7"
+array_tool = "0.3.8"
 ```
 
 And in your rust files where you plan to use it put this at the top
@@ -88,6 +88,13 @@ fn grapheme_bytes_iter(&'a self) -> GraphemeBytesIter<'a>;
   //  let mut graphemes = string.grapheme_bytes_iter()
   //  graphemes.skip(3).next();            // input
   //  [226, 128, 148]                      // return value for emdash `—`
+
+use array_tool::string::Squeeze;
+fn squeeze(&self, targets: &'static str) -> String;
+  //  "yellow moon".squeeze("")            // input
+  //  "yelow mon"                          // output
+  //  "  now   is  the".squeeze(" ")       // input
+  //  " now is the"                        // output
 
 use array_tool::string::Justify;
 fn justify_line(&self, width: usize) -> String;

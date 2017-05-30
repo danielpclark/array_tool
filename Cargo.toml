@@ -8,3 +8,6 @@ homepage = "https://github.com/danielpclark/array_tool"
 repository = "https://github.com/danielpclark/array_tool"
 license = "MIT OR Apache-2.0"
 readme = "README.md"
+keywords = ["vector","string","str","justify","word wrap","grapheme","squeeze","intersect","unique","substitution"]
+categories = ["text-processing", "data-structures", "value-formatting"]
+travis-ci = { repository = "https://github.com/danielpclark/array_tool", branch = "master" }

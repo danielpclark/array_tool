@@ -1,5 +1,17 @@
 extern crate array_tool;
 
+#[test]
+fn it_squeezes_characters() {
+  use array_tool::string::Squeeze;
+
+  assert_eq!("yellow moon".squeeze(""), "yelow mon");
+  assert_eq!("  now   is  the".squeeze(" "), " now is the");
+  assert_eq!("ééé".squeeze(""), "é");
+  assert_eq!("  ///  aa".squeeze("/"), "  /  aa");
+
+  let string: String = format!("yellow moon");
+  assert_eq!(string.squeeze(""), "yelow mon");
+}
 
 #[test]
 fn it_iterates_over_every_grapheme_character() {

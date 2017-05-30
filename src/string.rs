@@ -128,6 +128,7 @@ pub mod string {
 
   impl Justify for str {
     fn justify_line(&self, width: usize) -> String {
+      if self.is_empty() { return format!("{}", self) };
       let trimmed = self.trim() ;
       let len = trimmed.chars().count();
       if len >= width { return self.to_string(); };

@@ -92,9 +92,9 @@ fn grapheme_bytes_iter(&'a self) -> GraphemeBytesIter<'a>;
 use array_tool::string::Squeeze;
 fn squeeze(&self, targets: &'static str) -> String;
   //  "yellow moon".squeeze("")            // input
-  //  "yelow mon"                          // output
+  //  "yelow mon"                          // return value
   //  "  now   is  the".squeeze(" ")       // input
-  //  " now is the"                        // output
+  //  " now is the"                        // return value
 
 use array_tool::string::Justify;
 fn justify_line(&self, width: usize) -> String;

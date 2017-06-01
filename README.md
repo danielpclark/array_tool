@@ -12,7 +12,7 @@ for handling most of your use cases.
 ### Installation
 
 Add the following to your Cargo.toml file
-```
+```toml
 [dependencies]
 array_tool = "0.3.8"
 ```
@@ -37,48 +37,48 @@ pub fn uniques<T: PartialEq + Clone>(a: Vec<T>, b: Vec<T>) -> Vec<Vec<T>>
   //  vec![vec![1,3,4], vec![6,7,8]]                         // return value
 
 use array_tool::vec::Uniq;
-fn uniq(&self, other: Vec<T>) -> Vec<T>
+fn uniq(&self, other: Vec<T>) -> Vec<T>;
   //  vec![1,2,3,4,5,6].uniq( vec![1,2,5,7,9] ), // input
   //  vec![3,4,6]                                // return value
-fn unique(&self) -> Vec<T>
+fn unique(&self) -> Vec<T>;
   //  vec![1,2,1,3,2,3,4,5,6].unique(),          // input
   //  vec![1,2,3,4,5,6]                          // return value
-fn is_unique(&self) -> bool
+fn is_unique(&self) -> bool;
   //  vec![1,2,1,3,4,3,4,5,6].is_unique(),       // input
   //  false                                      // return value
   //  vec![1,2,3,4,5,6].is_unique(),             // input
   //  true                                       // return value
 
 use array_tool::vec::Shift;
-fn unshift(&mut self, other: T)     // no return value, modifies &mut self directly
+fn unshift(&mut self, other: T);    // no return value, modifies &mut self directly
   //  let mut x = vec![1,2,3];
   //  x.unshift(0);
   //  assert_eq!(x, vec![0,1,2,3]);
-fn shift(&mut self) -> T
+fn shift(&mut self) -> T;
   //  let mut x = vec![0,1,2,3];
   //  assert_eq!(x.shift(), 0);
   //  assert_eq!(x, vec![1,2,3]);
 
 use array_tool::vec::Intersect;
-fn intersect(&self, other: Vec<T>) -> Vec<T>
+fn intersect(&self, other: Vec<T>) -> Vec<T>;
   //  vec![1,1,3,5].intersect(vec![1,2,3]) // input
   //  vec![1,3]                            // return value
-fn intersect_if<F: Fn(&T, &T) -> bool>(&self, other: Vec<T>, validator: F) -> Vec<T>
+fn intersect_if<F: Fn(&T, &T) -> bool>(&self, other: Vec<T>, validator: F) -> Vec<T>;
   //  vec!['a','a','c','e'].intersect_if(vec!['A','B','C'], |l, r| l.eq_ignore_ascii_case(r)) // input
   //  vec!['a','c']                                                                           // return value
 
 use array_tool::vec::Join;
-fn join(&self, joiner: &'static str) -> String
+fn join(&self, joiner: &'static str) -> String;
   //  vec![1,2,3].join(",")                // input
   //  "1,2,3"                              // return value
 
 use array_tool::vec::Times;
-fn times(&self, qty: i32) -> Vec<T>
+fn times(&self, qty: i32) -> Vec<T>;
   //  vec![1,2,3].times(3)                 // input
   //  vec![1,2,3,1,2,3,1,2,3]              // return value
 
 use array_tool::vec::Union;
-fn union(&self, other: Vec<T>) -> Vec<T>
+fn union(&self, other: Vec<T>) -> Vec<T>;
   //  vec!["a","b","c"].union(vec!["c","d","a"])   // input
   //  vec![ "a", "b", "c", "d" ]                   // return value
 

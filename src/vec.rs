@@ -9,7 +9,7 @@
 pub mod vec {
 
   /// Several different methods for getting, or evaluating, uniqueness.
-  pub trait Uniq {
+  pub trait Uniq<T> {
     /// `uniq` returns a vector of unique values within itself as compared to
     /// the other vector which is provided as an input parameter.
     ///
@@ -40,6 +40,7 @@ pub mod vec {
     /// vec![1,2,3,4,5,6]
     /// ```
     fn unique(&self) -> Self;
+
     /// `is_unique` returns boolean value on whether all values within
     /// Self are unique.
     ///
@@ -55,36 +56,95 @@ pub mod vec {
     /// false
     /// ```
     fn is_unique(&self) -> bool;
+
+    /// `uniq_via` returns a vector of unique values within itself as compared to
+    /// the other vector which is provided as an input parameter, as defined by a
+    /// provided custom comparator.
+    ///
+    /// # Example
+    /// ```
+    /// use array_tool::vec::Uniq;
+    ///
+    /// vec![1,2,3,4,5,6].uniq_via( vec![1,2,5,7,9], |&l, r| l == r + 2 );
+    /// ```
+    ///
+    /// # Output
+    /// ```text
+    /// vec![1,2,4,6]
+    /// ```
+    fn uniq_via<F: Fn(&T, &T) -> bool>(&self, other: Self, f: F) -> Self;
+
+    /// `unique_via` removes duplicates, as defined by a provided custom comparator,
+    /// from within the vector and returns Self.
+    ///
+    /// # Example
+    /// ```
+    /// use array_tool::vec::Uniq;
+    ///
+    /// vec![1.0,2.0,1.4,3.3,2.1,3.5,4.6,5.2,6.2].unique_via( |l: &f64, r: &f64| l.floor() == r.floor() );
+    /// ```
+    ///
+    /// # Output
+    /// ```text
+    /// vec![1.0,2.0,3.3,4.6,5.2,6.2]
+    /// ```
+    fn unique_via<F: Fn(&T, &T) -> bool>(&self, f: F) -> Self;
+
+    /// `is_unique_via` returns boolean value on whether all values within
+    /// Self are unique, as defined by a provided custom comparator.
+    ///
+    /// # Example
+    /// ```
+    /// use array_tool::vec::Uniq;
+    ///
+    /// vec![1.0,2.0,1.4,3.3,2.1,3.5,4.6,5.2,6.2].is_unique_via( |l: &f64, r: &f64| l.floor() == r.floor() );
+    /// ```
+    ///
+    /// # Output
+    /// ```text
+    /// false
+    /// ```
+    fn is_unique_via<F: Fn(&T, &T) -> bool>(&self, f: F) -> bool;
   }
 
-  impl<T: Clone + PartialEq> Uniq for Vec<T> {
+  impl<T: Clone + PartialEq> Uniq<T> for Vec<T> {
     fn uniq(&self, other: Vec<T>) -> Vec<T> {
+      self.uniq_via(other, |lhs, rhs| lhs == rhs)
+    }
+    fn unique(&self) -> Vec<T> {
+      self.unique_via(|lhs, rhs| lhs == rhs)
+    }
+    fn is_unique(&self) -> bool {
+      self.is_unique_via(|lhs, rhs| lhs == rhs)
+    }
+
+    fn uniq_via<F: Fn(&T, &T) -> bool>(&self, other: Vec<T>, f: F) -> Vec<T> {
       let mut out = self.unique();
       for x in other.unique() {
         for y in (0..out.len()).rev() {
-          if x == out[y] {
+          if f(&x, &out[y]) {
             out.remove(y);
           }
         }
       }
       out
     }
-    fn unique(&self) -> Vec<T> {
+    fn unique_via<F: Fn(&T, &T) -> bool>(&self, f: F) -> Vec<T> {
       let mut a = self.clone();
       for x in (0..a.len()).rev() {
         for y in (x+1..a.len()).rev() {
-          if a[x] == a[y] {
+          if f(&a[x], &a[y]) {
             a.remove(y);
           }
         }
       }
       a
     }
-    fn is_unique(&self) -> bool {
+    fn is_unique_via<F: Fn(&T, &T) -> bool>(&self, f: F) -> bool {
       let mut a = true;
       for x in 0..self.len() {
         for y in x+1..self.len() {
-          if self[x] == self[y] {
+          if f(&self[x], &self[y]) {
             a = false;
             break;
           }

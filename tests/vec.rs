@@ -26,6 +26,33 @@ fn it_answers_about_uniqueness() {
 }
 
 #[test]
+fn it_implements_individual_uniq_on_vec_via() {
+  use array_tool::vec::Uniq;
+  assert_eq!(vec![1.1,2.6,3.7,4.7,5.4,6.6].uniq_via(vec![1.5,2.7,5.0,7.1,9.4], |l: &f64, r: &f64| l.floor() == r.floor()),vec![3.7,4.7,6.6]);
+  assert_eq!(vec![1.2,2.5,3.4,1.2,3.8,2.9,1.0,3.2,1.2,2.5,3.7,1.7,2.9,3.1,3.5,1.6,2.7,3.9,3.1,1.5,2.6,3.8,1.2,2.6,3.7,3.8,4.9,1.0,5.1,4.4,6.6]
+                  .uniq_via(vec![3.5,5.1], |l: &f64, r: &f64| l.floor() == r.floor()),
+             vec![1.2,2.5,2.9,1.0,1.7,1.6,2.7,1.5,2.6,4.9,4.4, 6.6]
+            );
+}
+
+#[test]
+fn it_can_return_its_own_unique_via() {
+  use array_tool::vec::Uniq;
+  assert_eq!(vec![1.2,2.5,1.4,3.2,4.8,3.9,4.0,5.2,6.2].unique_via(|l: &f64, r: &f64| l.floor() == r.floor()),vec![1.2,2.5,3.2,4.8,5.2,6.2]);
+  assert_eq!(vec![1.2,2.5,3.4,1.2,3.8,2.9,1.0,3.2,1.2,2.5,3.7,1.7,2.9,3.1,3.5,1.6,2.7,3.9,3.1,1.5,2.6,3.8,1.2,2.6,3.7,3.8,4.9,1.0,5.1,4.4,6.6]
+                  .unique_via(|l: &f64, r: &f64| l.floor() == r.floor()),
+             vec![1.2,2.5,3.4,4.9,5.1,6.6]
+            );
+}
+
+#[test]
+fn it_answers_about_uniqueness_via() {
+  use array_tool::vec::Uniq;
+  assert_eq!(vec![1.2,2.4,1.5,3.6,4.1,3.5,4.7,5.9,6.5].is_unique_via(|l: &f64, r: &f64| l.floor() == r.floor()), false);
+  assert_eq!(vec![1.2,2.4,3.5,4.6,5.1,6.5].is_unique_via(|l: &f64, r: &f64| l.floor() == r.floor()), true);
+}
+
+#[test]
 fn it_shifts() {
   use array_tool::vec::Shift;
   let mut x = vec![1,2,3];

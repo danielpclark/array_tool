@@ -8,7 +8,7 @@ homepage = "https://github.com/danielpclark/array_tool"
 repository = "https://github.com/danielpclark/array_tool"
 license = "MIT OR Apache-2.0"
 readme = "README.md"
-keywords = ["vector","string","str","justify","word wrap","grapheme","squeeze","intersect","unique","substitution"]
+keywords = ["vector","string","str","justify","word-wrap","grapheme","squeeze","intersect","unique","substitution"]
 categories = ["text-processing", "data-structures", "value-formatting"]
 
 [badges]

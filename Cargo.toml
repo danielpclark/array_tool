@@ -12,4 +12,4 @@ keywords = ["vector","string","grapheme","unique","substitution"]
 categories = ["text-processing", "data-structures", "value-formatting"]
 
 [badges]
-travis-ci = { repository = "https://github.com/danielpclark/array_tool", branch = "master" }
+travis-ci = { repository = "danielpclark/array_tool", branch = "master" }

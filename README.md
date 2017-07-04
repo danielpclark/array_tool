@@ -29,7 +29,7 @@ use array_tool::vec::*;
 
 This crate has helpful methods for strings as well.
 
-### Usage
+## Vector Usage
 
 ```rust
 pub fn uniques<T: PartialEq + Clone>(a: Vec<T>, b: Vec<T>) -> Vec<Vec<T>>
@@ -88,7 +88,11 @@ use array_tool::vec::Union;
 fn union(&self, other: Vec<T>) -> Vec<T>;
   //  vec!["a","b","c"].union(vec!["c","d","a"])   // input
   //  vec![ "a", "b", "c", "d" ]                   // return value
+```
 
+## String Usage
+
+```rust
 use array_tool::string::ToGraphemeBytesIter;
 fn grapheme_bytes_iter(&'a self) -> GraphemeBytesIter<'a>;
   //  let string = "a s—d féZ";

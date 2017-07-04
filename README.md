@@ -33,21 +33,28 @@ This crate has helpful methods for strings as well.
 
 ```rust
 pub fn uniques<T: PartialEq + Clone>(a: Vec<T>, b: Vec<T>) -> Vec<Vec<T>>
-  //  array_tool::uniques(vec![1,2,3,4,5], vec![2,5,6,7,8]), // input
-  //  vec![vec![1,3,4], vec![6,7,8]]                         // return value
+  //  array_tool::uniques(vec![1,2,3,4,5], vec![2,5,6,7,8]) // input
+  //  vec![vec![1,3,4], vec![6,7,8]]                        // return value
 
 use array_tool::vec::Uniq;
 fn uniq(&self, other: Vec<T>) -> Vec<T>;
-  //  vec![1,2,3,4,5,6].uniq( vec![1,2,5,7,9] ), // input
-  //  vec![3,4,6]                                // return value
+  //  vec![1,2,3,4,5,6].uniq( vec![1,2,5,7,9] ) // input
+  //  vec![3,4,6]                               // return value
+fn uniq_via<F: Fn(&T, &T) -> bool>(&self, other: Self, f: F) -> Self;
+  //  vec![1,2,3,4,5,6].uniq_via( vec![1,2,5,7,9], |&l, r| l == r + 2 ) // input 
+  //  vec![1,2,4,6]                                                     // return value
 fn unique(&self) -> Vec<T>;
-  //  vec![1,2,1,3,2,3,4,5,6].unique(),          // input
-  //  vec![1,2,3,4,5,6]                          // return value
+  //  vec![1,2,1,3,2,3,4,5,6].unique()          // input
+  //  vec![1,2,3,4,5,6]                         // return value
+fn unique_via<F: Fn(&T, &T) -> bool>(&self, f: F) -> Self;
+  //  vec![1.0,2.0,1.4,3.3,2.1,3.5,4.6,5.2,6.2].
+  //  unique_via( |l: &f64, r: &f64| l.floor() == r.floor() ) // input
+  //  vec![1.0,2.0,3.3,4.6,5.2,6.2]                           // return value
 fn is_unique(&self) -> bool;
-  //  vec![1,2,1,3,4,3,4,5,6].is_unique(),       // input
-  //  false                                      // return value
-  //  vec![1,2,3,4,5,6].is_unique(),             // input
-  //  true                                       // return value
+  //  vec![1,2,1,3,4,3,4,5,6].is_unique()       // input
+  //  false                                     // return value
+  //  vec![1,2,3,4,5,6].is_unique()             // input
+  //  true                                      // return value
 
 use array_tool::vec::Shift;
 fn unshift(&mut self, other: T);    // no return value, modifies &mut self directly

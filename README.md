@@ -1,5 +1,6 @@
 # array_tool
 [![Build Status](https://travis-ci.org/danielpclark/array_tool.svg?branch=master)](https://travis-ci.org/danielpclark/array_tool)
+[![Build Status](https://ci.appveyor.com/api/projects/status/dffq3dwb8w220q4f/branch/master?svg=true)](https://ci.appveyor.com/project/danielpclark/array-tool/branch/master)
 [![Documentation](https://img.shields.io/badge/docs-100%25-brightgreen.svg)](http://danielpclark.github.io/array_tool/index.html)
 [![crates.io version](https://img.shields.io/crates/v/array_tool.svg)](https://crates.io/crates/array_tool)
 [![License](https://img.shields.io/crates/l/array_tool.svg)]()
@@ -14,7 +15,7 @@ for handling most of your use cases.
 Add the following to your Cargo.toml file
 ```toml
 [dependencies]
-array_tool = "0.4.0"
+array_tool = "0.4.1"
 ```
 
 And in your rust files where you plan to use it put this at the top

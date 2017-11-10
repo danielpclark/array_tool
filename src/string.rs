@@ -140,24 +140,16 @@ impl Justify for str {
     let div = difference / spaces;
     let mut remainder = difference % spaces;
 
-    loop {
-      match iter.next() {
-        Some(x) => {
-          obj.push_str( x );
-          let val = if remainder > 0 {
-            remainder = remainder - 1;
-            div + 1
-          } else { div };
-          for _ in 0..val+1 {
-            match &iter.peek() { // Don't add spaces if last word
-              &Some(_) => {
-                obj.push_str( " " );
-              },
-              &None => {},
-            }
-          }
-        },
-        None => { break },
+    while let Some(x) = iter.next() {
+      obj.push_str( x );
+      let val = if remainder > 0 {
+        remainder = remainder - 1;
+        div + 1
+      } else { div };
+      for _ in 0..val+1 {
+        if let Some(_) = iter.peek() { // Don't add spaces if last word
+          obj.push_str( " " );
+        }
       }
     }
     obj
@@ -227,17 +219,12 @@ impl AfterWhitespace for str {
     let mut seeker = self[offset..self.len()].chars();
     let mut val = None;
     let mut indx = 0;
-    loop {
-      match seeker.next() {
-        Some(x) => {
-          if x.ne(&" ".chars().next().unwrap()) {
-            val = Some(indx);
-            break;
-          }
-          indx += 1;
-        },
-        None => { break; },
+    while let Some(x) = seeker.next() {
+      if x.ne(&" ".chars().next().unwrap()) {
+        val = Some(indx);
+        break;
       }
+      indx += 1;
     }
     val
   }

@@ -160,10 +160,10 @@ pub trait Shift<T> {
   /// use array_tool::vec::Shift;
   ///
   /// let mut x = vec![0,1,2,3];
-  /// assert_eq!(x.shift(), 0);
+  /// assert_eq!(x.shift(), Some(0));
   /// assert_eq!(x, vec![1,2,3]);
   /// ```
-  fn shift(&mut self) -> T;
+  fn shift(&mut self) -> Option<T>;
   /// Insert item at the beginning of the vector.  No return value.
   ///
   /// # Example
@@ -177,8 +177,9 @@ pub trait Shift<T> {
   fn unshift(&mut self, other: T);
 }
 impl<T: PartialEq> Shift<T> for Vec<T> {
-  fn shift(&mut self) -> T {
-    self.remove(0)
+  fn shift(&mut self) -> Option<T> {
+    if self.len() == 0 { return None; }
+    Some(self.remove(0))
   }
   fn unshift(&mut self, other: T) {
     &self.insert(0, other);

@@ -15,7 +15,7 @@ for handling most of your use cases.
 Add the following to your Cargo.toml file
 ```toml
 [dependencies]
-array_tool = "0.4.1"
+array_tool = "1.0.0"
 ```
 
 And in your rust files where you plan to use it put this at the top
@@ -62,9 +62,9 @@ fn unshift(&mut self, other: T);    // no return value, modifies &mut self direc
   //  let mut x = vec![1,2,3];
   //  x.unshift(0);
   //  assert_eq!(x, vec![0,1,2,3]);
-fn shift(&mut self) -> T;
+fn shift(&mut self) -> Option<T>;
   //  let mut x = vec![0,1,2,3];
-  //  assert_eq!(x.shift(), 0);
+  //  assert_eq!(x.shift(), Some(0));
   //  assert_eq!(x, vec![1,2,3]);
 
 use array_tool::vec::Intersect;

@@ -1,8 +1,7 @@
 #![deny(missing_docs,trivial_casts,trivial_numeric_casts,
         missing_debug_implementations, missing_copy_implementations,
-        unsafe_code,unstable_features,unused_import_braces,unused_qualifications)
+        unsafe_code,unused_import_braces,unused_qualifications)
 ]
-
 // Copyright 2015-2017 Daniel P. Clark & array_tool Developers
 // 
 // Licensed under the Apache License, Version 2.0, <LICENSE-APACHE or

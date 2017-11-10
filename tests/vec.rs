@@ -58,8 +58,15 @@ fn it_shifts() {
   let mut x = vec![1,2,3];
   x.unshift(0);
   assert_eq!(x, vec![0,1,2,3]);
-  assert_eq!(x.shift(), 0);
+  assert_eq!(x.shift(), Some(0));
   assert_eq!(x, vec![1,2,3]);
+}
+
+#[test]
+fn it_handles_empty_shift() {
+  use array_tool::vec::Shift;
+  let mut x: Vec<u8> = vec![];
+  assert_eq!(x.shift(), None);
 }
 
 #[test]
@@ -68,6 +75,7 @@ fn it_intersects() {
   assert_eq!(vec![1,1,3,5].intersect(vec![1,2,3]), vec![1,3])
 }
 
+#[allow(unused_imports)]
 #[test]
 fn it_intersects_if() {
   use array_tool::vec::Intersect;

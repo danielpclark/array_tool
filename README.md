@@ -30,6 +30,18 @@ use array_tool::vec::*;
 
 This crate has helpful methods for strings as well.
 
+## Iterator Usage
+
+```rust
+use array_tool::iter::ZipOpt;
+fn zip_option<U: Iterator>(self, other: U) -> ZipOption<Self, U>
+  where Self: Sized, U: IntoIterator;
+  //  let a = vec![1];
+  //  let b = vec![];
+  //  a.zip_option(b).next()      // input
+  //  Some((Some(1), None))       // return value
+```
+
 ## Vector Usage
 
 ```rust

@@ -9,6 +9,8 @@
 // http://opensource.org/licenses/MIT>, at your option. This file may not be
 // copied, modified, or distributed except according to those terms.
 
+#![feature(specialization)]
+
 //! # Array Tool
 //!
 //! is a collection of powerful methods for working with collections.
@@ -30,6 +32,9 @@
 //! This crate is not limited to just Vector methods and has some helpful
 //! string methods as well.
 
+
+/// Array Tool provides useful methods for iterators 
+pub mod iter;
 /// Array Tool provides many useful methods for vectors
 pub mod vec;
 /// A string is a collection so we should have more methods for handling strings.

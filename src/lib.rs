@@ -9,8 +9,6 @@
 // http://opensource.org/licenses/MIT>, at your option. This file may not be
 // copied, modified, or distributed except according to those terms.
 
-#![feature(specialization)]
-
 //! # Array Tool
 //!
 //! is a collection of powerful methods for working with collections.

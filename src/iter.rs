@@ -89,7 +89,7 @@ trait ZipImpl<A, B> {
 impl<A, B> ZipImpl<A, B> for ZipOption<A, B>
   where A: Iterator, B: Iterator {
   type Item = (Option<A::Item>, Option<B::Item>);
-  default fn new(a: A, b: B) -> Self {
+  fn new(a: A, b: B) -> Self {
     ZipOption {
       a,
       b,
@@ -99,7 +99,7 @@ impl<A, B> ZipImpl<A, B> for ZipOption<A, B>
   }
 
   #[inline]
-  default fn next(&mut self) -> Option<(Option<A::Item>, Option<B::Item>)> {
+  fn next(&mut self) -> Option<(Option<A::Item>, Option<B::Item>)> {
     let first = self.a.next();
     let second = self.b.next();
 
@@ -111,12 +111,12 @@ impl<A, B> ZipImpl<A, B> for ZipOption<A, B>
   }
 
   #[inline]
-  default fn nth(&mut self, n: usize) -> Option<Self::Item> {
+  fn nth(&mut self, n: usize) -> Option<Self::Item> {
     self.super_nth(n)
   }
 
   #[inline]
-  default fn next_back(&mut self) -> Option<(Option<A::Item>, Option<B::Item>)>
+  fn next_back(&mut self) -> Option<(Option<A::Item>, Option<B::Item>)>
     where A: DoubleEndedIterator + ExactSizeIterator,
           B: DoubleEndedIterator + ExactSizeIterator {
     let a_sz = self.a.len();
@@ -136,7 +136,7 @@ impl<A, B> ZipImpl<A, B> for ZipOption<A, B>
   }
 
   #[inline]
-  default fn size_hint(&self) -> (usize, Option<usize>) {
+  fn size_hint(&self) -> (usize, Option<usize>) {
     let (a_lower, a_upper) = self.a.size_hint();
     let (b_lower, b_upper) = self.b.size_hint();
 

@@ -43,8 +43,8 @@ impl<I: Iterator> ZipOpt for I {
   fn zip_option<U: Iterator>(self, other: U) -> ZipOption<Self, U>
     where Self: Sized, U: IntoIterator {
 
-      ZipOption::new(self, other)
-    }
+    ZipOption::new(self, other)
+  }
 }
 
 impl<A, B> Iterator for ZipOption<A, B> where A: Iterator, B: Iterator {
@@ -130,21 +130,21 @@ where A: Iterator, B: Iterator {
   fn next_back(&mut self) -> Option<(Option<A::Item>, Option<B::Item>)>
     where A: DoubleEndedIterator + ExactSizeIterator,
           B: DoubleEndedIterator + ExactSizeIterator {
-            let a_sz = self.a.len();
-            let b_sz = self.b.len();
-            if a_sz != b_sz {
-              // Adjust a, b to equal length
-              if a_sz > b_sz {
-                for _ in 0..a_sz - b_sz { self.a.next_back(); }
-              } else {
-                for _ in 0..b_sz - a_sz { self.b.next_back(); }
-              }
-            }
-            match (self.a.next_back(), self.b.next_back()) {
-              (None, None) => None,
-              (f,s) => Some((f, s)),
-            }
-          }
+    let a_sz = self.a.len();
+    let b_sz = self.b.len();
+    if a_sz != b_sz {
+      // Adjust a, b to equal length
+      if a_sz > b_sz {
+        for _ in 0..a_sz - b_sz { self.a.next_back(); }
+      } else {
+        for _ in 0..b_sz - a_sz { self.b.next_back(); }
+      }
+    }
+    match (self.a.next_back(), self.b.next_back()) {
+      (None, None) => None,
+      (f,s) => Some((f, s)),
+    }
+  }
 
   #[inline]
   fn size_hint(&self) -> (usize, Option<usize>) {

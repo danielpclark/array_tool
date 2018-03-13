@@ -98,7 +98,7 @@ trait ZipImpl<A, B> {
 
 #[doc(hidden)]
 impl<A, B> ZipImpl<A, B> for ZipOption<A, B>
-where A: Iterator, B: Iterator {
+  where A: Iterator, B: Iterator {
   type Item = (Option<A::Item>, Option<B::Item>);
   fn new(a: A, b: B) -> Self {
     ZipOption {

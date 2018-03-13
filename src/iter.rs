@@ -35,15 +35,16 @@ pub trait ZipOpt {
   /// ```text
   /// vec![ "a", "b", "c", "d" ]
   /// ```
-  fn zip_option<U: Iterator>(self, other: U) -> ZipOption<Self, U>
+  fn zip_option<U>(self, other: U) -> ZipOption<Self, U::IntoIter>
     where Self: Sized, U: IntoIterator;
 }
 
 impl<I: Iterator> ZipOpt for I {
-  fn zip_option<U: Iterator>(self, other: U) -> ZipOption<Self, U>
+  #[inline]
+  fn zip_option<U>(self, other: U) -> ZipOption<Self, U::IntoIter>
     where Self: Sized, U: IntoIterator {
 
-    ZipOption::new(self, other)
+    ZipOption::new(self, other.into_iter())
   }
 }
 

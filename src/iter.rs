@@ -67,22 +67,33 @@ impl<A, B> Iterator for ZipOption<A, B> where A: Iterator, B: Iterator {
 }
 
 #[doc(hidden)]
+impl<A, B> DoubleEndedIterator for ZipOption<A, B> where
+A: DoubleEndedIterator + ExactSizeIterator,
+B: DoubleEndedIterator + ExactSizeIterator,
+{
+  #[inline]
+  fn next_back(&mut self) -> Option<(Option<A::Item>, Option<B::Item>)> {
+    ZipImpl::next_back(self)
+  }
+}
+
+#[doc(hidden)]
 trait ZipImpl<A, B> {
-    type Item;
-    fn new(a: A, b: B) -> Self;
-    fn next(&mut self) -> Option<Self::Item>;
-    fn size_hint(&self) -> (usize, Option<usize>);
-    fn nth(&mut self, n: usize) -> Option<Self::Item>;
-    fn super_nth(&mut self, mut n: usize) -> Option<Self::Item> {
-        while let Some(x) = self.next() {
-            if n == 0 { return Some(x) }
-            n -= 1;
-        }
-        None
+  type Item;
+  fn new(a: A, b: B) -> Self;
+  fn next(&mut self) -> Option<Self::Item>;
+  fn size_hint(&self) -> (usize, Option<usize>);
+  fn nth(&mut self, n: usize) -> Option<Self::Item>;
+  fn super_nth(&mut self, mut n: usize) -> Option<Self::Item> {
+    while let Some(x) = self.next() {
+      if n == 0 { return Some(x) }
+      n -= 1;
     }
-    fn next_back(&mut self) -> Option<Self::Item>
-        where A: DoubleEndedIterator + ExactSizeIterator,
-              B: DoubleEndedIterator + ExactSizeIterator;
+    None
+  }
+  fn next_back(&mut self) -> Option<Self::Item>
+    where A: DoubleEndedIterator + ExactSizeIterator,
+          B: DoubleEndedIterator + ExactSizeIterator;
 }
 
 #[doc(hidden)]

@@ -15,7 +15,7 @@ for handling most of your use cases.
 Add the following to your Cargo.toml file
 ```toml
 [dependencies]
-array_tool = "1.0.0"
+array_tool = "~1.0.3"
 ```
 
 And in your rust files where you plan to use it put this at the top

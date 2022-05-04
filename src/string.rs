@@ -286,7 +286,7 @@ impl WordWrap for &'static str {
               if offset+chunk < t.len() { // String may continue
                 wordwrap(t, chunk, offset+1, mrkrs) // Recurse + 1 until next space
               } else {
-                use string::SubstMarks;
+                // use string::SubstMarks;
 
                 return t.subst_marks(mrkrs.to_vec(), "\n")
               }
@@ -297,7 +297,7 @@ impl WordWrap for &'static str {
           wordwrap(t, chunk, offset+x+1, mrkrs)
         },
       }
-    };
+    }
     wordwrap(self, width+1, 0, &mut markers)
   }
 }

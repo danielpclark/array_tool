@@ -182,7 +182,7 @@ impl<T: PartialEq> Shift<T> for Vec<T> {
     Some(self.remove(0))
   }
   fn unshift(&mut self, other: T) {
-    &self.insert(0, other);
+    let _ = &self.insert(0, other);
   }
 }
 
@@ -200,7 +200,7 @@ pub trait Intersect<T> {
   /// ```text
   /// vec![1,3]
   /// ```
-  fn intersect(&self, Self) -> Self;
+  fn intersect(&self, other: Self) -> Self;
   /// # Example
   /// ```
   /// # use std::ascii::AsciiExt;
@@ -213,7 +213,7 @@ pub trait Intersect<T> {
   /// ```text
   /// vec!['a','c']
   /// ```
-  fn intersect_if<F: Fn(&T, &T) -> bool>(&self, Self, validator: F) -> Self;
+  fn intersect_if<F: Fn(&T, &T) -> bool>(&self, other: Self, validator: F) -> Self;
 }
 impl<T: PartialEq + Clone> Intersect<T> for Vec<T> {
   fn intersect(&self, other: Vec<T>) -> Vec<T> {

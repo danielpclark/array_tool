@@ -1,9 +1,15 @@
-#![deny(missing_docs,trivial_casts,trivial_numeric_casts,
-        missing_debug_implementations, missing_copy_implementations,
-        unsafe_code,unused_import_braces,unused_qualifications)
-]
+#![deny(
+    missing_docs,
+    trivial_casts,
+    trivial_numeric_casts,
+    missing_debug_implementations,
+    missing_copy_implementations,
+    unsafe_code,
+    unused_import_braces,
+    unused_qualifications
+)]
 // Copyright 2015-2017 Daniel P. Clark & array_tool Developers
-// 
+//
 // Licensed under the Apache License, Version 2.0, <LICENSE-APACHE or
 // http://apache.org/licenses/LICENSE-2.0> or the MIT license <LICENSE-MIT or
 // http://opensource.org/licenses/MIT>, at your option. This file may not be
@@ -30,13 +36,12 @@
 //! This crate is not limited to just Vector methods and has some helpful
 //! string methods as well.
 
-
-/// Array Tool provides useful methods for iterators 
+/// Array Tool provides useful methods for iterators
 pub mod iter;
-/// Array Tool provides many useful methods for vectors
-pub mod vec;
 /// A string is a collection so we should have more methods for handling strings.
 pub mod string;
+/// Array Tool provides many useful methods for vectors
+pub mod vec;
 
 /// Get `uniques` from two vectors
 ///
@@ -52,7 +57,6 @@ pub mod string;
 /// vec![vec![1,3,4], vec![6,7,8]]
 /// ```
 pub fn uniques<T: PartialEq + Clone>(a: Vec<T>, b: Vec<T>) -> Vec<Vec<T>> {
-  use self::vec::Uniq;
-  vec![a.uniq(b.clone()), b.uniq(a)]
+    use self::vec::Uniq;
+    vec![a.uniq(b.clone()), b.uniq(a)]
 }
-

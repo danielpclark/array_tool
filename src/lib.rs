@@ -38,6 +38,8 @@
 
 /// Array Tool provides useful methods for iterators
 pub mod iter;
+/// TODO:???
+pub mod sorted_vec;
 /// A string is a collection so we should have more methods for handling strings.
 pub mod string;
 /// Array Tool provides many useful methods for vectors

@@ -18,6 +18,14 @@ fn it_implements_individual_uniq_on_vec() {
 }
 
 #[test]
+fn it_doesnt_mutate_on_individual_uniq() {
+    use array_tool::vec::Uniq;
+    let a = vec![1, 2, 3, 4, 5, 6];
+    a.uniq(vec![1, 2, 5, 7, 9]);
+    assert_eq!(a, vec![1, 2, 3, 4, 5, 6]);
+}
+
+#[test]
 fn it_can_return_its_own_unique() {
     use array_tool::vec::Uniq;
     assert_eq!(

@@ -42,12 +42,16 @@ fn it_answers_about_sorted_uniqueness() {
 fn it_implements_individual_uniq_on_sorted_vec_via() {
     use array_tool::sorted_vec::SortedUniq;
     assert_eq!(
-        vec![1.1, 2.6, 3.7, 4.7, 5.4, 6.6].uniq_via(
+        vec![1.1, 2.6, 3.7, 4.7, 5.4, 5.2, 6.6].uniq_via(
             vec![1.5, 2.7, 5.1, 7.1, 9.4, 10.2],
             |l: &f64, r: &f64| l.floor() == r.floor(),
             |l, r| l.floor() < r.floor()
         ),
         vec![3.7, 4.7, 6.6]
+    );
+    assert_eq!(
+        vec![5, 4, 3, 2, 1].uniq_via(vec![8, 6, 4, 2], |l, r| l == r, |l, r| l > r),
+        vec![5, 3, 1]
     );
 }
 

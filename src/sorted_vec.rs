@@ -46,13 +46,13 @@ impl<T: Copy + PartialEq + PartialOrd> SortedUniq<T> for Vec<T> {
         let mut j: usize = 0;
         while i < out.len() && j < other.len() {
             if ord(&other[j], &out[i]) {
-                // generally: other[j] < out[i]
+                // ^ should other[j] be ordered before out[i]?
                 j += 1;
             } else if eq(&other[j], &out[i]) {
                 i += 1;
                 j += 1;
             } else {
-                if cursor == 0 || out[cursor - 1] != out[i] {
+                if i == 0 || !eq(&out[i - 1], &out[i]) {
                     out[cursor] = out[i];
                     cursor += 1;
                 }
@@ -60,7 +60,7 @@ impl<T: Copy + PartialEq + PartialOrd> SortedUniq<T> for Vec<T> {
             }
         }
         while i < out.len() {
-            if cursor == 0 || out[cursor - 1] != out[i] {
+            if i == 0 || !eq(&out[i - 1], &out[i]) {
                 out[cursor] = out[i];
                 cursor += 1;
             }

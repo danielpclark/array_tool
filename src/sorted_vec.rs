@@ -16,9 +16,9 @@ pub trait SortedUniq<T>: Uniq<T> {
         ord: K,
     ) -> Self;
     /// TODO: add documentation
-    fn unique_via<F: Fn(&T, &T) -> bool, K: Fn(&T, &T) -> bool>(&self, eq: F, ord: K) -> Self;
+    fn unique_via<F: Fn(&T, &T) -> bool>(&self, eq: F) -> Self;
     /// TODO: add documentation
-    fn is_unique_via<F: Fn(&T, &T) -> bool, K: Fn(&T, &T) -> bool>(&self, eq: F, ord: K) -> bool;
+    fn is_unique_via<F: Fn(&T, &T) -> bool>(&self, eq: F) -> bool;
 }
 
 impl<T: Copy + PartialEq + PartialOrd> SortedUniq<T> for Vec<T> {
@@ -27,11 +27,11 @@ impl<T: Copy + PartialEq + PartialOrd> SortedUniq<T> for Vec<T> {
     }
 
     fn unique(&self) -> Vec<T> {
-        SortedUniq::<T>::unique_via(self, |l, r| l == r, |l, r| l < r)
+        SortedUniq::<T>::unique_via(self, |l, r| l == r)
     }
 
     fn is_unique(&self) -> bool {
-        SortedUniq::<T>::is_unique_via(self, |l, r| l == r, |l, r| l < r)
+        SortedUniq::<T>::is_unique_via(self, |l, r| l == r)
     }
 
     fn uniq_via<F: Fn(&T, &T) -> bool, K: Fn(&T, &T) -> bool>(
@@ -66,15 +66,30 @@ impl<T: Copy + PartialEq + PartialOrd> SortedUniq<T> for Vec<T> {
             }
             i += 1;
         }
-        out.resize(cursor, out[0]);
+        out.truncate(cursor);
+        out
+    }
+    fn unique_via<F: Fn(&T, &T) -> bool>(&self, eq: F) -> Vec<T> {
+        let mut out = self.clone();
+        let mut cursor: usize = 1;
+        for i in 1..out.len() {
+            if !eq(&out[i], &out[i - 1]) {
+                if i != cursor {
+                    out[cursor] = out[i];
+                }
+                cursor += 1;
+            }
+        }
+        out.truncate(cursor);
         out
     }
 
-    fn unique_via<F: Fn(&T, &T) -> bool, K: Fn(&T, &T) -> bool>(&self, eq: F, ord: K) -> Vec<T> {
-        self.clone()
-    }
-
-    fn is_unique_via<F: Fn(&T, &T) -> bool, K: Fn(&T, &T) -> bool>(&self, eq: F, ord: K) -> bool {
-        false
+    fn is_unique_via<F: Fn(&T, &T) -> bool>(&self, eq: F) -> bool {
+        for i in 1..self.len() {
+            if eq(&self[i], &self[i - 1]) {
+                return false;
+            }
+        }
+        true
     }
 }

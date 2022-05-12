@@ -1,5 +1,4 @@
 use vec::Uniq;
-
 /// Collection of methods for getting or evaluating uniqueness, assuming some
 /// kind of sorted-ness
 pub trait SortedUniq<T>: Uniq<T> {
@@ -20,7 +19,7 @@ pub trait SortedUniq<T>: Uniq<T> {
     /// ```
     fn uniq(&self, other: Self) -> Self;
 
-    /// `uniq_decreasing` returns a vector of unique values within itself as compared
+    /// `uniq_desc` returns a vector of unique values within itself as compared
     /// to the other vector, which is provided as an input parameter. Both of these
     /// must be sorted and have non-increasing values. Inverse of `uniq`.
     ///
@@ -28,14 +27,14 @@ pub trait SortedUniq<T>: Uniq<T> {
     /// ```
     /// use array_tool::sorted_vec::SortedUniq;
     ///
-    /// vec![6,5,4,3,2,1].uniq_decreasing(vec![9,7,5,3,1]);
+    /// vec![6,5,4,3,2,1].uniq_desc(vec![9,7,5,3,1]);
     /// ```
     ///
     /// # Output
     /// ```text
     /// vec![6,4,2]
     /// ```
-    fn uniq_decreasing(&self, other: Self) -> Self;
+    fn uniq_desc(&self, other: Self) -> Self;
 
     /// `unique` returns a vector like Self but with all duplicated elements
     /// removed. Self must be a vector sorted in some way.
@@ -133,15 +132,15 @@ pub trait SortedUniq<T>: Uniq<T> {
 }
 
 impl<T: Copy + PartialEq + PartialOrd> SortedUniq<T> for Vec<T> {
-    fn uniq(&self, other: Vec<T>) -> Vec<T> {
+    fn uniq(&self, other: Self) -> Self {
         SortedUniq::<T>::uniq_via(self, other, |l, r| l == r, |l, r| l < r)
     }
 
-    fn uniq_decreasing(&self, other: Vec<T>) -> Vec<T> {
+    fn uniq_desc(&self, other: Self) -> Self {
         SortedUniq::<T>::uniq_via(self, other, |l, r| l == r, |l, r| l > r)
     }
 
-    fn unique(&self) -> Vec<T> {
+    fn unique(&self) -> Self {
         SortedUniq::<T>::unique_via(self, |l, r| l == r)
     }
 
@@ -151,10 +150,10 @@ impl<T: Copy + PartialEq + PartialOrd> SortedUniq<T> for Vec<T> {
 
     fn uniq_via<F: Fn(&T, &T) -> bool, K: Fn(&T, &T) -> bool>(
         &self,
-        other: Vec<T>,
+        other: Self,
         eq: F,
         ord: K,
-    ) -> Vec<T> {
+    ) -> Self {
         let mut out = self.clone();
         let mut cursor: usize = 0;
         let mut i: usize = 0;
@@ -184,7 +183,7 @@ impl<T: Copy + PartialEq + PartialOrd> SortedUniq<T> for Vec<T> {
         out.truncate(cursor);
         out
     }
-    fn unique_via<F: Fn(&T, &T) -> bool>(&self, eq: F) -> Vec<T> {
+    fn unique_via<F: Fn(&T, &T) -> bool>(&self, eq: F) -> Self {
         let mut out = self.clone();
         let mut cursor: usize = 1;
         for i in 1..out.len() {
@@ -206,5 +205,106 @@ impl<T: Copy + PartialEq + PartialOrd> SortedUniq<T> for Vec<T> {
             }
         }
         true
+    }
+}
+
+use vec::Intersect;
+/// Sorted Set Intersection — Returns a new array containing elements common to the
+/// two arrays, excluding any duplicates. The order is preserved from the original
+/// array.
+pub trait SortedIntersect<T>: Intersect<T> {
+    /// Performs basic intersect operation with given other vector, returning a copy
+    /// of Self with elements common to both vectors. Both vectors have to be sorted
+    /// with ascending values.
+    ///
+    /// # Example
+    /// ```
+    /// use array_tool::sorted_vec::SortedIntersect;
+    ///
+    /// vec![1,1,3,5].intersect(vec![1,2,3]);
+    /// ```
+    ///
+    /// # Output
+    /// ```text
+    /// vec![1,3]
+    /// ```
+    fn intersect(&self, other: Self) -> Self;
+
+    /// Performs basic intersect operation with given other vector, returning a copy
+    /// of Self with elements common to both vectors. Both vectors have to be sorted
+    /// with descending values.
+    /// # Example
+    /// ```
+    /// use array_tool::sorted_vec::SortedIntersect;
+    ///
+    /// vec![5,4,3,2,1].intersect_desc(vec![3,2,1]);
+    /// ```
+    ///
+    /// # Output
+    /// ```text
+    /// vec![3,2,1]
+    /// ```
+    fn intersect_desc(&self, other: Self) -> Self;
+
+    /// Performs intersect operation with given other vector and two custom comparators
+    /// provided as arguments. Vectors must be sorted in some way corresponding to the
+    /// first equality comparator, and second order comparator. If ascending: `|l, r|
+    /// l < r`
+    ///
+    /// # Example
+    /// ```
+    /// use array_tool::sorted_vec::SortedIntersect;
+    ///
+    /// vec!['a','a','c','e'].intersect_if(
+    ///     vec!['A','B','C'],
+    ///     |l, r| l.eq_ignore_ascii_case(r),
+    ///     |l, r| l == &r.to_ascii_lowercase(),
+    /// );
+    /// ```
+    ///
+    /// # Output
+    /// ```text
+    /// vec!['a','c']
+    /// ```
+    fn intersect_if<E: Fn(&T, &T) -> bool, O: Fn(&T, &T) -> bool>(
+        &self,
+        other: Self,
+        eq: E,
+        ord: O,
+    ) -> Self;
+}
+
+impl<T: PartialEq + PartialOrd + Copy + std::fmt::Debug> SortedIntersect<T> for Vec<T> {
+    fn intersect(&self, other: Self) -> Self {
+        SortedIntersect::<T>::intersect_if(self, other, |l, r| l == r, |l, r| l < r)
+    }
+
+    fn intersect_desc(&self, other: Self) -> Self {
+        SortedIntersect::<T>::intersect_if(self, other, |l, r| l == r, |l, r| l > r)
+    }
+
+    fn intersect_if<E: Fn(&T, &T) -> bool, O: Fn(&T, &T) -> bool>(
+        &self,
+        other: Self,
+        eq: E,
+        ord: O,
+    ) -> Self {
+        let mut out = self.clone();
+        let (mut i, mut j, mut cursor) = (0, 0, 0);
+        while i < out.len() && j < other.len() {
+            if eq(&out[i], &other[j]) {
+                out[cursor] = out[i];
+                cursor += 1;
+                j += 1;
+                i += 1;
+            } else if ord(&out[i], &other[j]) {
+                // usually: out[i] < other[j]
+                i += 1;
+            } else {
+                j += 1;
+            }
+        }
+        out.truncate(cursor);
+        out
     }
 }

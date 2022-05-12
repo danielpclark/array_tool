@@ -188,8 +188,8 @@ impl<T: PartialEq> Shift<T> for Vec<T> {
     }
 }
 
-/// Set Intersection — Returns a new array containing elements common to the two arrays,
-/// excluding any duplicates. The order is preserved from the original array.
+/// Set Intersection — Returns a new array containing elements common to the two
+/// arrays, excluding any duplicates. The order is preserved from the original array.
 pub trait Intersect<T> {
   /// # Example
   /// ```

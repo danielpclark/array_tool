@@ -123,7 +123,6 @@ fn it_intersects() {
     assert_eq!(vec![1, 1, 3, 5].intersect(vec![1, 2, 3]), vec![1, 3])
 }
 
-#[allow(unused_imports)]
 #[test]
 fn it_intersects_if() {
     use array_tool::vec::Intersect;

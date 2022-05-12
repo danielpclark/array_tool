@@ -1,23 +1,115 @@
 use vec::Uniq;
 
-/// TODO: Documentation for SortedUniq trait
+/// Collection of methods for getting or evaluating uniqueness, assuming some
+/// kind of sorted-ness
 pub trait SortedUniq<T>: Uniq<T> {
-    /// TODO
+    /// `uniq` returns a vector of unique values within itself as compared to the
+    /// other vector, which is provided as an input parameter. Both of these must
+    /// have non-decreasing values.
+    ///
+    /// # Example
+    /// ```
+    /// use array_tool::sorted_vec::SortedUniq;
+    ///
+    /// vec![1,2,3,4,5,6].uniq(vec![1,2,5,7,9]);
+    /// ```
+    ///
+    /// # Output
+    /// ```text
+    /// vec![3,4,6]
+    /// ```
     fn uniq(&self, other: Self) -> Self;
-    /// TODO: add documentation
+
+    /// `unique` returns a vector like Self but with all duplicated elements
+    /// removed. Must have non-decreasing values.
+    ///
+    /// # Example
+    /// ```
+    /// use array_tool::sorted_vec::SortedUniq;
+    ///
+    /// vec![1,1,1,2,3,3,4,5,6].unique();
+    /// ```
+    ///
+    /// # Output
+    /// ```text
+    /// vec![1,2,3,4,5,6]
+    /// ```
     fn unique(&self) -> Self;
-    /// TODO: add documentation
+
+    /// `is_unique` returns boolean value on whether all values within Self are
+    /// unique. Self must be sorted in some way.
+    ///
+    /// # Example
+    /// ```
+    /// use array_tool::sorted_vec::SortedUniq;
+    ///
+    /// vec![1,2,4,6,6,7,8].is_unique();
+    /// ```
+    ///
+    /// # Output
+    /// ```text
+    /// false
+    /// ```
     fn is_unique(&self) -> bool;
-    /// TODO: add documentation
+
+    /// `uniq_via` returns a vector of unique values within itself as compared to
+    /// the other vector which is provided as an input parameter, as defined by
+    /// the two provided custom comparators. Both vectors must be sorted, and the
+    /// sort direction is determined by the second comparator: l < r for increasing.
+    ///
+    /// # Example
+    /// ```
+    /// use array_tool::sorted_vec::SortedUniq;
+    ///
+    /// vec![1,2,3,4,5,6].uniq_via(
+    ///     vec![1,2,5,7,9],
+    ///     |l, r| l == r,
+    ///     |l, r| l < r
+    /// );
+    /// ```
+    ///
+    /// # Output
+    /// ```text
+    /// vec![3, 4, 6]
+    /// ```
     fn uniq_via<F: Fn(&T, &T) -> bool, K: Fn(&T, &T) -> bool>(
         &self,
         other: Self,
         eq: F,
         ord: K,
     ) -> Self;
-    /// TODO: add documentation
+
+    /// `unique_via` removes duplicates from within the vector and returns Self.
+    /// Self must be a vector sorted in some way.
+    ///
+    /// # Example
+    /// ```
+    /// use array_tool::sorted_vec::SortedUniq;
+    ///
+    /// vec![1,2,3,3,4,5,6].unique_via(|l, r| l == r);
+    /// ```
+    ///
+    /// # Output
+    /// ```text
+    /// vec![1,2,3,4,5,6]
+    /// ```
     fn unique_via<F: Fn(&T, &T) -> bool>(&self, eq: F) -> Self;
-    /// TODO: add documentation
+
+    /// `is_unique_via` returns boolean value on whether all values within
+    /// Self are unique, as defined by a provided custom comparator. Self must
+    /// be a vector sorted in some way.
+    ///
+    /// # Example
+    /// ```
+    /// use array_tool::sorted_vec::SortedUniq;
+    ///
+    /// vec![1.0,2.0,2.4,3.3,3.1,3.5,4.6,5.2,6.2].is_unique_via( |l: &f64, r: &f64| l.floor() == r.floor() );
+    /// ```
+    ///
+    /// # Output
+    /// ```text
+    /// false
+    /// ```
     fn is_unique_via<F: Fn(&T, &T) -> bool>(&self, eq: F) -> bool;
 }
 

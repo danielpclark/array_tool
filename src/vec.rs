@@ -23,7 +23,7 @@ pub trait Uniq<T> {
     /// ```
     fn uniq(&self, other: Self) -> Self;
 
-    /// `unique` removes duplicates from within the vector and returns Self.
+    /// `unique` returns a vector like Self but with all duplicated elements removed.
     ///
     /// # Example
     /// ```

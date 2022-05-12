@@ -38,7 +38,7 @@
 
 /// Array Tool provides useful methods for iterators
 pub mod iter;
-/// TODO:???
+/// Array Tool provides optimized runtimes for sorted vectors
 pub mod sorted_vec;
 /// A string is a collection so we should have more methods for handling strings.
 pub mod string;

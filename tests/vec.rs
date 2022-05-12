@@ -123,11 +123,9 @@ fn it_intersects() {
     assert_eq!(vec![1, 1, 3, 5].intersect(vec![1, 2, 3]), vec![1, 3])
 }
 
-#[allow(unused_imports)]
 #[test]
 fn it_intersects_if() {
     use array_tool::vec::Intersect;
-    // use std::ascii::AsciiExt;
     assert_eq!(
         vec!['a', 'a', 'c', 'e']
             .intersect_if(vec!['A', 'B', 'C'], |l, r| l.eq_ignore_ascii_case(r)),

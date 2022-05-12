@@ -188,9 +188,12 @@ impl<T: PartialEq> Shift<T> for Vec<T> {
     }
 }
 
-/// Set Intersection — Returns a new array containing elements common to the two arrays,
-/// excluding any duplicates. The order is preserved from the original array.
+/// Set Intersection — Returns a new array containing elements common to the two
+/// arrays, excluding any duplicates. The order is preserved from the original array.
 pub trait Intersect<T> {
+    /// Performs basic intersect operation with given other vector, returning a copy
+    /// of Self with elements common to both vectors
+    ///
     /// # Example
     /// ```
     /// use array_tool::vec::Intersect;
@@ -203,9 +206,12 @@ pub trait Intersect<T> {
     /// vec![1,3]
     /// ```
     fn intersect(&self, other: Self) -> Self;
+
+    ///  Performs intersect operation with given other vector and an equality comparators
+    ///  provided by user
+    ///
     /// # Example
     /// ```
-    /// # use std::ascii::AsciiExt;
     /// use array_tool::vec::Intersect;
     ///
     /// vec!['a','a','c','e'].intersect_if(vec!['A','B','C'], |l, r| l.eq_ignore_ascii_case(r));

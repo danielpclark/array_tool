@@ -5,7 +5,7 @@ use vec::Uniq;
 pub trait SortedUniq<T>: Uniq<T> {
     /// `uniq` returns a vector of unique values within itself as compared to the
     /// other vector, which is provided as an input parameter. Both of these must
-    /// have non-decreasing values.
+    /// be sorted and have non-decreasing values
     ///
     /// # Example
     /// ```
@@ -20,8 +20,25 @@ pub trait SortedUniq<T>: Uniq<T> {
     /// ```
     fn uniq(&self, other: Self) -> Self;
 
+    /// `uniq_decreasing` returns a vector of unique values within itself as compared
+    /// to the other vector, which is provided as an input parameter. Both of these
+    /// must be sorted and have non-increasing values. Inverse of `uniq`.
+    ///
+    /// # Example
+    /// ```
+    /// use array_tool::sorted_vec::SortedUniq;
+    ///
+    /// vec![6,5,4,3,2,1].uniq_decreasing(vec![9,7,5,3,1]);
+    /// ```
+    ///
+    /// # Output
+    /// ```text
+    /// vec![6,4,2]
+    /// ```
+    fn uniq_decreasing(&self, other: Self) -> Self;
+
     /// `unique` returns a vector like Self but with all duplicated elements
-    /// removed. Must have non-decreasing values.
+    /// removed. Self must be a vector sorted in some way.
     ///
     /// # Example
     /// ```
@@ -37,7 +54,7 @@ pub trait SortedUniq<T>: Uniq<T> {
     fn unique(&self) -> Self;
 
     /// `is_unique` returns boolean value on whether all values within Self are
-    /// unique. Self must be sorted in some way.
+    /// unique. Self must be a vecto sorted in some way.
     ///
     /// # Example
     /// ```
@@ -54,8 +71,9 @@ pub trait SortedUniq<T>: Uniq<T> {
 
     /// `uniq_via` returns a vector of unique values within itself as compared to
     /// the other vector which is provided as an input parameter, as defined by
-    /// the two provided custom comparators. Both vectors must be sorted, and the
-    /// sort direction is determined by the second comparator: l < r for increasing.
+    /// the two provided custom comparators. Both vectors must be sorted in a way
+    /// corresponding to the custom comparators, and the sort direction is determined
+    /// by the second comparator: l < r for increasing.
     ///
     /// # Example
     /// ```
@@ -79,8 +97,9 @@ pub trait SortedUniq<T>: Uniq<T> {
         ord: K,
     ) -> Self;
 
-    /// `unique_via` removes duplicates from within the vector and returns Self.
-    /// Self must be a vector sorted in some way.
+    /// `unique_via` removes duplicates, as defined by a provided custom comparator,
+    /// from within the vector and returns Self. Self must be a vector sorted in a
+    /// way corresponding to the custom comparator.
     ///
     /// # Example
     /// ```
@@ -97,7 +116,7 @@ pub trait SortedUniq<T>: Uniq<T> {
 
     /// `is_unique_via` returns boolean value on whether all values within
     /// Self are unique, as defined by a provided custom comparator. Self must
-    /// be a vector sorted in some way.
+    /// be a vector sorted in some way corresponding to the custom comparator.
     ///
     /// # Example
     /// ```
@@ -118,6 +137,10 @@ impl<T: Copy + PartialEq + PartialOrd> SortedUniq<T> for Vec<T> {
         SortedUniq::<T>::uniq_via(self, other, |l, r| l == r, |l, r| l < r)
     }
 
+    fn uniq_decreasing(&self, other: Vec<T>) -> Vec<T> {
+        SortedUniq::<T>::uniq_via(self, other, |l, r| l == r, |l, r| l > r)
+    }
+
     fn unique(&self) -> Vec<T> {
         SortedUniq::<T>::unique_via(self, |l, r| l == r)
     }
@@ -128,7 +151,7 @@ impl<T: Copy + PartialEq + PartialOrd> SortedUniq<T> for Vec<T> {
 
     fn uniq_via<F: Fn(&T, &T) -> bool, K: Fn(&T, &T) -> bool>(
         &self,
-        other: Self,
+        other: Vec<T>,
         eq: F,
         ord: K,
     ) -> Vec<T> {

@@ -8,7 +8,9 @@ pub struct ZipOption<A, B> {
   a: A,
   b: B,
   // index and len are only used by the specialized version of zip
+  #[allow(dead_code)]
   index: usize,
+  #[allow(dead_code)]
   len: usize,
 }
 

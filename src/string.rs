@@ -30,16 +30,14 @@ impl<'a> Iterator for GraphemeBytesIter<'a> {
         let mut idx = self.offset;
         for _ in self.offset..self.source.len() {
             idx += 1;
-            if self.offset < self.source.len() {
-                if self.source.is_char_boundary(idx) {
-                    let slice: &[u8] = self.source[self.offset..idx].as_bytes();
+            if self.offset < self.source.len() && self.source.is_char_boundary(idx) {
+                let slice: &[u8] = self.source[self.offset..idx].as_bytes();
 
-                    self.grapheme_count += 1;
-                    self.offset = idx;
+                self.grapheme_count += 1;
+                self.offset = idx;
 
-                    result = Some(slice);
-                    break;
-                }
+                result = Some(slice);
+                break;
             }
         }
         result
@@ -71,7 +69,7 @@ pub trait ToGraphemeBytesIter<'a> {
 }
 impl<'a> ToGraphemeBytesIter<'a> for str {
     fn grapheme_bytes_iter(&'a self) -> GraphemeBytesIter<'a> {
-        GraphemeBytesIter::new(&self)
+        GraphemeBytesIter::new(self)
     }
 }
 
@@ -127,7 +125,7 @@ pub trait Justify {
 impl Justify for str {
     fn justify_line(&self, width: usize) -> String {
         if self.is_empty() {
-            return format!("{}", self);
+            return self.to_string();
         };
         let trimmed = self.trim();
         let len = trimmed.chars().count();
@@ -149,15 +147,15 @@ impl Justify for str {
         while let Some(x) = iter.next() {
             obj.push_str(x);
             let val = if remainder > 0 {
-                remainder = remainder - 1;
+                remainder -= 1;
                 div + 1
             } else {
                 div
             };
             for _ in 0..val + 1 {
-                if let Some(_) = iter.peek() {
+                if iter.peek().is_some() {
                     // Don't add spaces if last word
-                    obj.push_str(" ");
+                    obj.push(' ');
                 }
             }
         }
@@ -227,10 +225,10 @@ impl AfterWhitespace for str {
         if self.len() < offset {
             return None;
         };
-        let mut seeker = self[offset..self.len()].chars();
+        let seeker = self[offset..self.len()].chars();
         let mut val = None;
         let mut indx = 0;
-        while let Some(x) = seeker.next() {
+        for x in seeker {
             if x.ne(&" ".chars().next().unwrap()) {
                 val = Some(indx);
                 break;
@@ -274,9 +272,9 @@ impl WordWrap for &'static str {
             offset: usize,
             mrkrs: &mut Vec<usize>,
         ) -> String {
-            match t[offset..*vec![offset + chunk, t.len()].iter().min().unwrap()].rfind("\n") {
+            match t[offset..*vec![offset + chunk, t.len()].iter().min().unwrap()].rfind('\n') {
                 None => {
-                    match t[offset..*vec![offset + chunk, t.len()].iter().min().unwrap()].rfind(" ")
+                    match t[offset..*vec![offset + chunk, t.len()].iter().min().unwrap()].rfind(' ')
                     {
                         Some(x) => {
                             let mut eows = x; // end of white space
@@ -311,7 +309,7 @@ impl WordWrap for &'static str {
                                 // String may continue
                                 wordwrap(t, chunk, offset + 1, mrkrs) // Recurse + 1 until next space
                             } else {
-                                return t.subst_marks(mrkrs.to_vec(), "\n");
+                                t.subst_marks(mrkrs.to_vec(), "\n")
                             }
                         }
                     }

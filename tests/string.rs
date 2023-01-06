@@ -9,7 +9,7 @@ fn it_squeezes_characters() {
     assert_eq!("ééé".squeeze(""), "é");
     assert_eq!("  ///  aa".squeeze("/"), "  /  aa");
 
-    let string: String = format!("yellow moon");
+    let string: String = "yellow moon".to_string();
     assert_eq!(string.squeeze(""), "yelow mon");
 
     assert_eq!("".squeeze(""), "");
@@ -33,7 +33,7 @@ fn it_iterates_over_every_grapheme_character() {
     assert_eq!(giter.next().unwrap(), "Z".as_bytes());
     assert_eq!(giter.next(), None);
 
-    let somestring2 = format!("{}", "a s—d féZ");
+    let somestring2 = "a s—d féZ".to_string();
     let mut giter2 = somestring2.grapheme_bytes_iter();
 
     assert_eq!(giter2.next().unwrap(), "a".as_bytes());

@@ -178,7 +178,7 @@ pub trait Shift<T> {
 }
 impl<T: PartialEq> Shift<T> for Vec<T> {
     fn shift(&mut self) -> Option<T> {
-        if self.len() == 0 {
+        if self.is_empty() {
             return None;
         }
         Some(self.remove(0))
@@ -258,7 +258,7 @@ impl<T: ToString> Join for Vec<T> {
         for x in 0..self.len() {
             out.push_str(&self[x].to_string());
             if x < self.len() - 1 {
-                out.push_str(&joiner)
+                out.push_str(joiner)
             }
         }
         out

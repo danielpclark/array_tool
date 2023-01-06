@@ -191,31 +191,34 @@ impl<T: PartialEq> Shift<T> for Vec<T> {
 /// Set Intersection — Returns a new array containing elements common to the two
 /// arrays, excluding any duplicates. The order is preserved from the original array.
 pub trait Intersect<T> {
-  /// # Example
-  /// ```
-  /// use array_tool::vec::Intersect;
-  ///
-  /// vec![1,1,3,5].intersect(vec![1,2,3]);
-  /// ```
-  ///
-  /// # Output
-  /// ```text
-  /// vec![1,3]
-  /// ```
-  fn intersect(&self, other: Self) -> Self;
-  /// # Example
-  /// ```
-  /// # use std::ascii::AsciiExt;
-  /// use array_tool::vec::Intersect;
-  ///
-  /// vec!['a','a','c','e'].intersect_if(vec!['A','B','C'], |l, r| l.eq_ignore_ascii_case(r));
-  /// ```
-  ///
-  /// # Output
-  /// ```text
-  /// vec!['a','c']
-  /// ```
-  fn intersect_if<F: Fn(&T, &T) -> bool>(&self, other: Self, validator: F) -> Self;
+    /// # Example
+    /// ```
+    /// use array_tool::vec::Intersect;
+    ///
+    /// vec![1,1,3,5].intersect(vec![1,2,3]);
+    /// ```
+    ///
+    /// # Output
+    /// ```text
+    /// vec![1,3]
+    /// ```
+    fn intersect(&self, other: Self) -> Self;
+    /// # Example
+    /// ```
+    /// # use std::ascii::AsciiExt;
+    /// use array_tool::vec::Intersect;
+    ///
+    /// vec!['a','a','c','e'].intersect_if(
+    ///     vec!['A','B','C'],
+    ///     |l, r| l.eq_ignore_ascii_case(r)
+    /// );
+    /// ```
+    ///
+    /// # Output
+    /// ```text
+    /// vec!['a','c']
+    /// ```
+    fn intersect_if<F: Fn(&T, &T) -> bool>(&self, other: Self, validator: F) -> Self;
 }
 impl<T: PartialEq + Clone> Intersect<T> for Vec<T> {
     fn intersect(&self, other: Vec<T>) -> Vec<T> {
@@ -224,13 +227,9 @@ impl<T: PartialEq + Clone> Intersect<T> for Vec<T> {
     fn intersect_if<F: Fn(&T, &T) -> bool>(&self, other: Self, validator: F) -> Self {
         let mut out = vec![];
         let a = self.unique();
-        let length = other.len();
         for x in a {
-            for y in 0..length {
-                if validator(&x, &other[y]) {
-                    out.push(x);
-                    break;
-                }
+            if other.iter().any(|y| validator(&x, y)) {
+                out.push(x);
             }
         }
         out
@@ -281,11 +280,13 @@ pub trait Times {
     fn times(&self, qty: i32) -> Self;
 }
 impl<T: Clone> Times for Vec<T> {
+    #[allow(clippy::needless_range_loop)] // performance
     fn times(&self, qty: i32) -> Vec<T> {
         if self.is_empty() {
             return vec![];
         };
         let mut out = vec![self[0].clone(); self.len() * (qty as usize)];
+        // create empty vec of size
         let mut cycle = self.iter().cycle();
         for x in 0..self.len() * (qty as usize) {
             out[x] = cycle.next().unwrap().clone();

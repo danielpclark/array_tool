@@ -89,6 +89,7 @@ pub trait Squeeze {
     fn squeeze(&self, targets: &'static str) -> String;
 }
 impl Squeeze for str {
+    #[allow(clippy::if_same_then_else)] // readability
     fn squeeze(&self, targets: &'static str) -> String {
         let mut output = Vec::<u8>::with_capacity(self.len());
         let everything: bool = targets.is_empty();
@@ -206,8 +207,8 @@ impl SubstMarks for str {
 
 /// After whitespace
 pub trait AfterWhitespace {
-    /// Given offset method will seek from there to end of string to find the first
-    /// non white space.  Resulting value is counted from offset.
+    /// Given offset method will seek from there to end of string to find the
+    /// first non white space.  Resulting value is counted from offset.
     ///
     /// # Example
     /// ```
@@ -227,13 +228,11 @@ impl AfterWhitespace for str {
         };
         let seeker = self[offset..self.len()].chars();
         let mut val = None;
-        let mut indx = 0;
-        for x in seeker {
+        for (indx, x) in seeker.enumerate() {
             if x.ne(&" ".chars().next().unwrap()) {
                 val = Some(indx);
                 break;
             }
-            indx += 1;
         }
         val
     }
@@ -241,12 +240,13 @@ impl AfterWhitespace for str {
 
 /// Word wrapping
 pub trait WordWrap {
-    ///  White space is treated as valid content and new lines will only be swapped in for
-    ///  the last white space character at the end of the given width.  White space may reach beyond
-    ///  the width you've provided.  You will need to trim end of lines in your own output (e.g.
-    ///  splitting string at each new line and printing the line with trim_right).  Or just trust
-    ///  that lines that are beyond the width are just white space and only print the width -
-    ///  ignoring tailing white space.
+    ///  White space is treated as valid content and new lines will only be
+    ///  swapped in for the last white space character at the end of the given
+    ///  width.  White space may reach beyond the width you've provided. You
+    ///  will need to trim end of lines in your own output (e.g. splitting
+    ///  string at each new line and printing the line with trim_right). Or
+    ///  just trust that lines that are beyond the width are just white space
+    ///  and only print the width - ignoring tailing white space.
     ///
     /// # Example
     /// ```
@@ -280,13 +280,10 @@ impl WordWrap for &'static str {
                             let mut eows = x; // end of white space
                             if offset + chunk < t.len() {
                                 // check if white space continues
-                                match t.seek_end_of_whitespace(offset + x) {
-                                    Some(a) => {
-                                        if a.ne(&0) {
-                                            eows = x + a - 1;
-                                        }
+                                if let Some(a) = t.seek_end_of_whitespace(offset + x) {
+                                    if a.ne(&0) {
+                                        eows = x + a - 1;
                                     }
-                                    None => {}
                                 }
                             }
                             if offset + chunk < t.len() {

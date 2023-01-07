@@ -45,8 +45,8 @@ fn it_can_return_its_own_unique() {
 #[test]
 fn it_answers_about_uniqueness() {
     use array_tool::vec::Uniq;
-    assert_eq!(vec![1, 2, 1, 3, 4, 3, 4, 5, 6].is_unique(), false);
-    assert_eq!(vec![1, 2, 3, 4, 5, 6].is_unique(), true);
+    assert!(!vec![1, 2, 1, 3, 4, 3, 4, 5, 6].is_unique());
+    assert!(vec![1, 2, 3, 4, 5, 6].is_unique());
 }
 
 #[test]
@@ -89,14 +89,10 @@ fn it_can_return_its_own_unique_via() {
 #[test]
 fn it_answers_about_uniqueness_via() {
     use array_tool::vec::Uniq;
-    assert_eq!(
-        vec![1.2, 2.4, 1.5, 3.6, 4.1, 3.5, 4.7, 5.9, 6.5]
-            .is_unique_via(|l: &f64, r: &f64| l.floor() == r.floor()),
-        false
-    );
-    assert_eq!(
-        vec![1.2, 2.4, 3.5, 4.6, 5.1, 6.5].is_unique_via(|l: &f64, r: &f64| l.floor() == r.floor()),
-        true
+    assert!(!vec![1.2, 2.4, 1.5, 3.6, 4.1, 3.5, 4.7, 5.9, 6.5]
+        .is_unique_via(|l: &f64, r: &f64| l.floor() == r.floor()));
+    assert!(
+        vec![1.2, 2.4, 3.5, 4.6, 5.1, 6.5].is_unique_via(|l: &f64, r: &f64| l.floor() == r.floor())
     );
 }
 

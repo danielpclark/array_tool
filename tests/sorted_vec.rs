@@ -43,8 +43,8 @@ fn it_can_return_its_own_sorted_unique() {
 #[test]
 fn it_answers_about_sorted_uniqueness() {
     use array_tool::vec::Uniq;
-    assert_eq!(vec![1, 2, 3, 4].is_unique(), true);
-    assert_eq!(vec![1, 2, 2, 4].is_unique(), false);
+    assert!(vec![1, 2, 3, 4].is_unique());
+    assert!(!vec![1, 2, 2, 4].is_unique());
 }
 
 #[test]
@@ -76,14 +76,8 @@ fn it_can_return_its_own_sorted_unique_via() {
 #[test]
 fn it_answers_about_sorted_uniqueness_via() {
     use array_tool::sorted_vec::SortedUniq;
-    assert_eq!(
-        vec![1.2, 2.5, 3.3, 4.4].is_unique_via(|l: &f64, r: &f64| l.floor() == r.floor()),
-        true
-    );
-    assert_eq!(
-        vec![1.1, 2.2, 2.7, 3.3].is_unique_via(|l: &f64, r: &f64| l.floor() == r.floor()),
-        false
-    );
+    assert!(vec![1.2, 2.5, 3.3, 4.4].is_unique_via(|l: &f64, r: &f64| l.floor() == r.floor()));
+    assert!(!vec![1.1, 2.2, 2.7, 3.3].is_unique_via(|l: &f64, r: &f64| l.floor() == r.floor()));
 }
 
 #[test]

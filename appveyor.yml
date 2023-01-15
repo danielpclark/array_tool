@@ -37,11 +37,20 @@ install:
 
 test_script:
   - if [%APPVEYOR_REPO_TAG%]==[false] (
+      cargo clippy --all-targets --all-features -- -D warnings
+    )
+  - if [%APPVEYOR_REPO_TAG%]==[false] (
       cargo build --target %TARGET% &&
       cargo build --target %TARGET% --release &&
       cargo test --target %TARGET% &&
       cargo test --target %TARGET% --release
     )
+
+notifications:
+  - provider: GitHubPullRequest
+    auth_token:
+      secure: ylnkm4FqANrLXi8LUuvEBJL/6RA2mTRl2UkPML+k7/QbXeNRSZ1bf8zfp8bgah9x6yjAzpgCaMUqKxwpbYtpuzfgrz4GSczerJQkltFoF1nN8rDYi21m0Z38UsXer3Gb
+    template: "{{#passed}}:white_check_mark:{{/passed}}{{#failed}}:x:{{/failed}} [Build {{&projectName}} {{buildVersion}} {{status}}]({{buildUrl}}) (commit {{commitUrl}} by @{{&commitAuthorUsername}})"
 
 cache:
   - C:\Users\appveyor\.cargo\registry
